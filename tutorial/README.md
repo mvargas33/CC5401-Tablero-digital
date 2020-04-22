@@ -70,7 +70,7 @@ Ahora instalen los buildpack, tienen dos opciones: desde browser, desde comandos
 
 En Heroku, vayan a Dashboard y ahí a tablero-digital. Luego busquen la pestaña Settings. Y busquen esto:
 
-![buildpacks]()
+![buildpacks](https://bitbucket.org/tablerodigital/tablero_digital/src/develop/tutorial/buildpacks.png)
 
 Agreguen esos dos **en ese orden**.
 
@@ -89,11 +89,11 @@ De nuevo desde dos partes:
 
 En Settings de nuevo:
 
-![vals_1]()
+![vals_1](https://bitbucket.org/tablerodigital/tablero_digital/src/develop/tutorial/vals_1.png)
 
 Y presionen `Reveal Config vals`:
 
-![vals_2]()
+![vals_2](https://bitbucket.org/tablerodigital/tablero_digital/src/develop/tutorial/vals_2.png)
 
 Agreguen esas variables, las repito acá:
 
