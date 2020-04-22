@@ -1,0 +1,1 @@
+web: gunicorn tablero_digital.wsgi --log-file -
