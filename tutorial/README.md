@@ -77,8 +77,8 @@ Agreguen esos dos **en ese orden**.
 #### Comandos
 
 ````bash
-heroku set:buildpack https://github.com/negativetwelve/heroku-buildpack-subdir
-heroku add:buildpack heroku/python
+heroku buildpacks:set https://github.com/negativetwelve/heroku-buildpack-subdir
+heroku buildpacks:add heroku/python
 ````
 
 ### Variables
@@ -125,7 +125,7 @@ heroku config:set REST_API_URL=https://tablero-digital.herokuapp.com/api/v1.0/
 
 Acá recomiendo usar el browser, al menos para las dos secret key (`DJANGO_SECRET_KEY` y `DJANGO_JWT_SECRET`), porque hay valores que la terminal no identifica.
 
-Esos valores deberiamos cambiarlos, pero hay que cambiarlos en la app igual, así que serán esos mientras tanto.
+Esos valores deberíamos cambiarlos, pero hay que cambiarlos en la app igual, así que serán esos mientras tanto.
 
 ## Correr la app
 
@@ -140,4 +140,58 @@ heroku open
 
 # Deployar con dos app
 
-Trabajo en ello...
+Aquí deberán crear dos aplicaciones. Si quieren puede ser dos nuevas o pueden borrar la anterior y repetir el nombre. En mi caso, usaré `api-tablero` (así está en el README antiguo). No es tan importante guardar las aplicaciones de heroku vivas (después lo será).
+
+````bash
+heroku create api-tablero
+heroku buildpacks:set heroku/python -a api-tablero
+````
+
+**Ojo**: ahora son dos apps, así que para evitar ambigüedades deben usar el argumento `-a` y especificar la app.
+
+Setear las variables:
+
+````bash
+DJANGO_DEBUG_MODE=false
+DJANGO_SECRET_KEY=gp_gsy)lm8=0@jf!ooyzu7ap*y+88^9vl9u^3!mt27=wut4cs$
+DJANGO_JWT_SECRET=fTjWnZr4u7x!A%D*G-KaNdRgUkXp2s5v
+DJANGO_PRODUCTION_CORS_ORIGIN=https://front-tablero.herokuapp.com
+````
+
+Ahora sí:
+
+````bash
+git push https://git.heroku.com/api-tablero.git HEAD:master
+heroku ps:scale web=1 -a api-tablero
+# heroku open
+# No hagn el último no va a salir nada
+````
+
+La aplicación vue:
+
+````bash
+heroku create front-tablero
+heroku buildpacks:set https://github.com/heroku/heroku-buildpack-multi-procfile -a front-tablero
+heroku buildpacks:add https://github.com/negativetwelve/heroku-buildpack-subdir -a front-tablero
+````
+
+Y las variables:
+
+````bash
+heroku config:set NODE_ENV=production -a front-tablero
+heroku config:set PORT=443 -a front-tablero
+heroku config:set PROCFILE=frontend/Procfile -a front-tablero
+heroku config:set VUE_PUBLIC_PATH=https://front-tablero.herokuapp.com/ -a front-tablero
+heroku config:set REST_API_URL=https://api-tablero.herokuapp.com/api/v1.0/ -a front-tablero
+````
+
+Y correr:
+
+````bash
+git push https://git.heroku.com/front-tablero.git HEAD:master
+heroku ps:scale web=1 -a front-tablero
+heroku open -a front-tablero
+````
+
+
+
