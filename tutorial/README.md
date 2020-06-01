@@ -132,10 +132,17 @@ Esos valores deberíamos cambiarlos, pero hay que cambiarlos en la app igual, as
 Comandos:
 
 ````bash
-git push master heroku
+git push heroku master # para correr un branch particular usar git push heroku nombreBranch:master
 # Toma tiempo
 heroku ps:scale web=1
 heroku open
+````
+
+## Ejecutar migraciones
+Recordar que Django debe ejecutar las migraciones para inicializar la base de datos. En general para ejecutar comandos en host remoto que contiene la aplicación, usamos "heroku run":
+
+````bash
+heroku run python manage.py migrate
 ````
 
 # Deployar con dos app
