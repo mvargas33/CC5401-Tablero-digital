@@ -26,6 +26,14 @@
           Ocultar
         </b-button>
 
+        <b-button
+          variant="danger"
+          @click="$bvModal.hide('info-post-it')"
+          class="mr-auto"
+        >
+          Eliminar
+        </b-button>
+
       </div>
 
       <h4 class="text-center mt-4">
