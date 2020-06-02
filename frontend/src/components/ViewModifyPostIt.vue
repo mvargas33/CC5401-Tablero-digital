@@ -19,14 +19,6 @@
         </b-button>
 
         <b-button
-          variant="secondary"
-          @click="$bvModal.hide('info-post-it')"
-          class="mr-auto"
-        >
-          Ocultar
-        </b-button>
-
-        <b-button
           variant="danger"
           @click="$bvModal.hide('info-post-it')"
           class="mr-auto"
