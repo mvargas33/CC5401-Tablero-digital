@@ -20,7 +20,7 @@
 
         <b-button
           variant="danger"
-          @click="$bvModal.hide('info-post-it')"
+          @click="$bvModal.show('confirm-delete')"
           class="mr-auto"
         >
           Eliminar
@@ -119,6 +119,13 @@
           </b-button>
           <b-button @click="cancel()">Cancelar</b-button>
       </template>
+    </b-modal>
+
+    <b-modal
+    id="confirm-delete"
+    title="Seguro que desea eliminar el postit?"
+    hide-backdrop>
+      
     </b-modal>
   </div>
 </template>
