@@ -127,16 +127,16 @@
     title="Confirmar eliminación"
     >
     <p>Está seguro que desea eliminar el postit?</p> 
-    <template v-slot:modal-footer="{cancel}">
+    <template v-slot:modal-footer>
       <b-button 
-        @click="cancel()"
+        @click="$bvModal.hide('confirm-delete');$bvModal.show('info-post-it');"
       >
         Cancelar
       </b-button>
       <b-button
         variant="primary"
         class="mr-2"
-        @click="$bvModal.hide('confirm-delete');"
+        @click="deletePostit();$bvModal.hide('confirm-delete');"
       >
         Confirmar
       </b-button>
@@ -259,7 +259,13 @@ export default {
         .catch(error => {
           console.log(error);
         });
-    }
+    },
+
+    deletePostit(){
+      axios      
+        .delete(`postit/${this.selectedPostIt.id}/`);
+    },
+
   }
 };
 </script>
