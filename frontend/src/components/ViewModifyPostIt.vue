@@ -138,7 +138,7 @@
         class="mr-2"
         @click="$bvModal.hide('confirm-delete');"
       >
-        Guardar
+        Confirmar
       </b-button>
           
       </template>
