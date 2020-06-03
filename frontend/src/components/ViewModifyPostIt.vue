@@ -124,9 +124,9 @@
     <b-modal
     id="confirm-delete"
     no-close-on-backdrop
-    title="Seguro que desea eliminar el postit?"
+    title="Confirmar eliminación"
     >
-      
+    <p>Está seguro que desea eliminar el postit?</p> 
     </b-modal>
   </div>
 </template>
