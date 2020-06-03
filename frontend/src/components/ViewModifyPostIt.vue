@@ -127,9 +127,9 @@
     title="Confirmar eliminación"
     >
     <p>Está seguro que desea eliminar el postit?</p> 
-    <template v-slot:modal-footer>
+    <template v-slot:modal-footer="{cancel}">
       <b-button 
-        @click="$bvModal.hide('confirm-delete');$bvModal.show('info-post-it');"
+        @click="cancel()"
       >
         Cancelar
       </b-button>
