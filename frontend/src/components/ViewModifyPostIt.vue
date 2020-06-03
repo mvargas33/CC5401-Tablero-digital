@@ -264,6 +264,7 @@ export default {
     deletePostit(){
       axios      
         .delete(`postit/${this.selectedPostIt.id}/`);
+        this.$emit('board-changes-saved');
     },
 
   }
