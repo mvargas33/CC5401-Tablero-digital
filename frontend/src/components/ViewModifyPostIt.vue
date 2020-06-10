@@ -61,9 +61,9 @@
 
       <!-- <hr/>  -->
 
-      <b-container fluid>
-        <b-row >
-          <b-col md="2">
+      <b-container class="text-center">
+        <b-row align-h="start">
+          <b-col>
             <b-button
             type="submit"
             form="edit-post-it-form"
@@ -74,10 +74,10 @@
             Guardar
             </b-button>
           </b-col>
-          <b-col md="2">
+          <b-col>
             <b-button @click="cancel()">Cancelar</b-button>
           </b-col>
-          <b-col md="2" offset-md="6">
+          <b-col>
             <b-button variant="danger" @click="eliminar()">
             <font-awesome-icon icon="trash" />
             Eliminar
