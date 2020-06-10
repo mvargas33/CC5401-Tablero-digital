@@ -234,7 +234,8 @@ export default {
         .then(response => {
           this.$emit('postit-changed', this.selectedPostIt, response.data);
           this.$emit('board-changes-saved');
-          this.$bvModal.hide("info-post-it");
+          //this.$bvModal.hide("info-post-it");
+          this.$bvModal.hide("modify-post-it")
         })
         .catch(error => {
           console.log(error);
