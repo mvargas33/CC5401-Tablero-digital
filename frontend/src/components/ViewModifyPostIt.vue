@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-modal
+    <!-- <b-modal
       id="info-post-it"
       :title="selectedPostIt.title"
       body-class="p-0"
@@ -28,6 +28,47 @@
 
       </div>
 
+    </b-modal> -->
+
+    <b-modal 
+      id="modify-post-it"
+      no-close-on-backdrop
+      title="Edición de Post-it"
+      @shown="$emit('post-it-edit-begin')"
+      @hidden="$emit('post-it-edit-end')"
+    >
+      <b-form
+        @submit.prevent="onSubmit"
+        id="edit-post-it-form"
+      >
+        <b-form-input
+          v-model="modifiedPostIt.title"
+          required
+          placeholder="Título"
+          class="mb-2"
+        />
+        <b-form-textarea
+          v-model="modifiedPostIt.description"
+          required
+          placeholder="Descripción"
+          class="description-textarea mb-2"
+        />
+        <b-form-select v-model="modifiedPostIt.section" required :options="sectionOptions" />
+      </b-form>
+
+      <!-- Botones Guardar cambios -->
+      <b-button
+        type="submit"
+        form="edit-post-it-form"
+        variant="primary"
+        class="mr-auto"
+      >
+        Guardar cambios
+      </b-button>
+      <b-button @click="cancel()">Cancelar</b-button>
+
+
+      <!-- Estado de votación del postit -->
       <h4 class="text-center mt-4">
         <b-badge
           class="p-2"
@@ -80,45 +121,7 @@
           </p>
         </div>
       </div>
-          
-    </b-modal>
 
-    <b-modal 
-      id="modify-post-it"
-      no-close-on-backdrop
-      title="Edición de Post-it"
-      @shown="$emit('post-it-edit-begin')"
-      @hidden="$emit('post-it-edit-end')"
-    >
-      <b-form
-        @submit.prevent="onSubmit"
-        id="edit-post-it-form"
-      >
-        <b-form-input
-          v-model="modifiedPostIt.title"
-          required
-          placeholder="Título"
-          class="mb-2"
-        />
-        <b-form-textarea
-          v-model="modifiedPostIt.description"
-          required
-          placeholder="Descripción"
-          class="description-textarea mb-2"
-        />
-        <b-form-select v-model="modifiedPostIt.section" required :options="sectionOptions" />
-      </b-form>
-      <template v-slot:modal-footer="{cancel}">
-          <b-button
-            type="submit"
-            form="edit-post-it-form"
-            variant="primary"
-            class="mr-auto"
-          >
-            Guardar
-          </b-button>
-          <b-button @click="cancel()">Cancelar</b-button>
-      </template>
     </b-modal>
   </div>
 </template>
@@ -231,7 +234,8 @@ export default {
         .then(response => {
           this.$emit('postit-changed', this.selectedPostIt, response.data);
           this.$emit('board-changes-saved');
-          this.$bvModal.hide("info-post-it");
+          //this.$bvModal.hide("info-post-it");
+          this.$bvModal.hide("modify-post-it")
         })
         .catch(error => {
           console.log(error);
