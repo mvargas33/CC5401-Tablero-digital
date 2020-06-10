@@ -34,6 +34,7 @@
       id="modify-post-it"
       no-close-on-backdrop
       title="Edición de Post-it"
+      hide-footer
       @shown="$emit('post-it-edit-begin')"
       @hidden="$emit('post-it-edit-end')"
     >
@@ -55,18 +56,6 @@
         />
         <b-form-select v-model="modifiedPostIt.section" required :options="sectionOptions" />
       </b-form>
-
-      <!-- Botones Guardar cambios -->
-      <b-button
-        type="submit"
-        form="edit-post-it-form"
-        variant="primary"
-        class="mr-auto"
-      >
-        Guardar cambios
-      </b-button>
-      <b-button @click="cancel()">Cancelar</b-button>
-
 
       <!-- Estado de votación del postit -->
       <h4 class="text-center mt-4">
@@ -121,6 +110,19 @@
           </p>
         </div>
       </div>
+
+      <!-- Botones Guardar cambios -->
+      <b-container class="bv-example-row">
+        <b-button
+          type="submit"
+          form="edit-post-it-form"
+          variant="sucsess"
+          class="mr-auto"
+        >
+          Guardar cambios
+        </b-button>
+        <b-button @click="cancel()">Cancelar</b-button>
+      </b-container>
 
     </b-modal>
   </div>
@@ -240,6 +242,9 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    },
+    cancel() {
+      this.$bvModal.hide("modify-post-it");
     }
   }
 };
