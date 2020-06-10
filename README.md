@@ -81,3 +81,4 @@ REST_API_URL=https://api-tablero.herokuapp.com/api/v1.0/
 ```
 **Same as before, we use the names we gave as examples for the urls, replace them
 with the corresponding app names.**
+
