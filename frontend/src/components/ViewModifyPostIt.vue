@@ -33,7 +33,7 @@
     <b-modal 
       id="modify-post-it"
       no-close-on-backdrop
-      title="Edición de Post-it"
+      title="selectedPostIt.title"
       hide-footer
       @shown="$emit('post-it-edit-begin')"
       @hidden="$emit('post-it-edit-end')"
@@ -116,7 +116,7 @@
         <b-button
           type="submit"
           form="edit-post-it-form"
-          variant="sucsess"
+          variant="success"
           class="mr-auto"
         >
           Guardar cambios
