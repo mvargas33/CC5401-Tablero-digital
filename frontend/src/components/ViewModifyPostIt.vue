@@ -61,7 +61,7 @@
 
       <hr/> 
 
-      <b-container>
+      <b-container class="text-center">
         <b-row align-h="center">
           <b-col>
             <b-button
@@ -70,6 +70,7 @@
             variant="success"
             class="mr-auto"
             >
+            <font-awesome-icon icon="save" />
             Guardar
             </b-button>
           </b-col>
@@ -77,7 +78,10 @@
             <b-button @click="cancel()">Cancelar</b-button>
           </b-col>
           <b-col>
-            <b-button variant="danger" @click="eliminar()">Eliminar</b-button>
+            <b-button variant="danger" @click="eliminar()">
+            <font-awesome-icon icon="trash" />
+            Eliminar
+            </b-button>
           </b-col>
         </b-row>
       </b-container>
@@ -87,7 +91,7 @@
       <!-- Estado de votación del postit -->
 
       <hr/>
-      
+
       <h4 class="text-center mt-4">
         <b-badge
           class="p-2"
