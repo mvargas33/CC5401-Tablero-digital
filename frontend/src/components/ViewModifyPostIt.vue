@@ -33,7 +33,7 @@
     <b-modal 
       id="modify-post-it"
       no-close-on-backdrop
-      title="selectedPostIt.title"
+      :title="selectedPostIt.title"
       hide-footer
       @shown="$emit('post-it-edit-begin')"
       @hidden="$emit('post-it-edit-end')"
@@ -112,16 +112,25 @@
       </div>
 
       <!-- Botones Guardar cambios -->
-      <b-container class="bv-example-row">
-        <b-button
-          type="submit"
-          form="edit-post-it-form"
-          variant="success"
-          class="mr-auto"
-        >
-          Guardar cambios
-        </b-button>
-        <b-button @click="cancel()">Cancelar</b-button>
+      <b-container>
+        <b-row>
+          <b-col>
+            <b-button
+            type="submit"
+            form="edit-post-it-form"
+            variant="success"
+            class="mr-auto"
+            >
+            Guardar cambios
+            </b-button>
+          </b-col>
+          <b-col>
+            <b-button @click="cancel()">Cancelar</b-button>
+          </b-col>
+          <b-col>
+            <b-button variant="danger" @click="eliminar()">Eliminar</b-button>
+          </b-col>
+        </b-row>
       </b-container>
 
     </b-modal>
@@ -245,6 +254,9 @@ export default {
     },
     cancel() {
       this.$bvModal.hide("modify-post-it");
+    },
+    eliminar() { // TODO: Eliminar positit con llamada a axios
+      return
     }
   }
 };
