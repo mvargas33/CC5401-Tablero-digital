@@ -57,6 +57,8 @@
         <b-form-select v-model="modifiedPostIt.section" required :options="sectionOptions" />
       </b-form>
 
+      <hr/>
+
       <!-- Estado de votación del postit -->
       <h4 class="text-center mt-4">
         <b-badge
