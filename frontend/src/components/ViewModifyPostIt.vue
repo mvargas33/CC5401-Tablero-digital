@@ -112,6 +112,9 @@
       </div>
 
       <!-- Botones Guardar cambios -->
+
+      <hr/> 
+
       <b-container>
         <b-row>
           <b-col>
@@ -128,7 +131,7 @@
             <b-button @click="cancel()">Cancelar</b-button>
           </b-col>
           <b-col>
-            <b-button variant="danger" @click="eliminar()"><i class="far fa-trash-alt"></i>Eliminar</b-button>
+            <b-button variant="danger" @click="eliminar()">Eliminar</b-button>
           </b-col>
         </b-row>
       </b-container>
