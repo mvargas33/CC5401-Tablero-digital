@@ -57,9 +57,37 @@
         <b-form-select v-model="modifiedPostIt.section" required :options="sectionOptions" />
       </b-form>
 
-      <hr/>
+      <!-- Botones Guardar cambios -->
+
+      <hr/> 
+
+      <b-container>
+        <b-row align-h="center">
+          <b-col>
+            <b-button
+            type="submit"
+            form="edit-post-it-form"
+            variant="success"
+            class="mr-auto"
+            >
+            Guardar
+            </b-button>
+          </b-col>
+          <b-col>
+            <b-button @click="cancel()">Cancelar</b-button>
+          </b-col>
+          <b-col>
+            <b-button variant="danger" @click="eliminar()">Eliminar</b-button>
+          </b-col>
+        </b-row>
+      </b-container>
+
+      
 
       <!-- Estado de votación del postit -->
+
+      <hr/>
+      
       <h4 class="text-center mt-4">
         <b-badge
           class="p-2"
@@ -113,30 +141,7 @@
         </div>
       </div>
 
-      <!-- Botones Guardar cambios -->
-
-      <hr/> 
-
-      <b-container>
-        <b-row align-h="center">
-          <b-col>
-            <b-button
-            type="submit"
-            form="edit-post-it-form"
-            variant="success"
-            class="mr-auto"
-            >
-            Guardar
-            </b-button>
-          </b-col>
-          <b-col>
-            <b-button @click="cancel()">Cancelar</b-button>
-          </b-col>
-          <b-col>
-            <b-button variant="danger" @click="eliminar()">Eliminar</b-button>
-          </b-col>
-        </b-row>
-      </b-container>
+      
 
     </b-modal>
   </div>
