@@ -59,25 +59,25 @@
 
       <!-- Botones Guardar cambios -->
 
-      <hr/> 
+      <!-- <hr/>  -->
 
-      <b-container class="text-center">
-        <b-row align-h="center">
-          <b-col>
+      <b-container fluid>
+        <b-row >
+          <b-col md="2">
             <b-button
             type="submit"
             form="edit-post-it-form"
-            variant="success"
+            variant="primary"
             class="mr-auto"
             >
             <font-awesome-icon icon="save" />
             Guardar
             </b-button>
           </b-col>
-          <b-col>
+          <b-col md="2">
             <b-button @click="cancel()">Cancelar</b-button>
           </b-col>
-          <b-col>
+          <b-col md="2" offset-md="6">
             <b-button variant="danger" @click="eliminar()">
             <font-awesome-icon icon="trash" />
             Eliminar
