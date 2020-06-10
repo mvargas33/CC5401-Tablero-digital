@@ -116,7 +116,7 @@
       <hr/> 
 
       <b-container>
-        <b-row>
+        <b-row align-h="center">
           <b-col>
             <b-button
             type="submit"
