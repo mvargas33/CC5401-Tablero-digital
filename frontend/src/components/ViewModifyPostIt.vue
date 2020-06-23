@@ -101,7 +101,7 @@
       </b-container>
 
       <!-- Estado de votación del postit -->
-      <div v-if="user.is_leader">
+      <div v-if="work_in.is_leader">
         <hr/>
 
         <p class="mb-4 mt-4 text-center h6 text-secondary">{{ votingMessage }}</p>
