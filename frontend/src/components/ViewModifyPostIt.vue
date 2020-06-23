@@ -100,59 +100,49 @@
         </b-row>
       </b-container>
 
-      
-
       <!-- Estado de votación del postit -->
+      <div v-if="user.is_leader">
+        <hr/>
 
-      <hr/>
+        <p class="mb-4 mt-4 text-center h6 text-secondary">{{ votingMessage }}</p>
 
-      <p class="mb-4 mt-4 text-center h6 text-secondary">{{ votingMessage }}</p>
-
-      <b-container class="text-center">
-        <b-row align-h="start">
-          <b-col style="text-align: left">
-            <b-button
-              class="px-5"
-              variant="success"
-              @click="vote(1)"
-              :disabled="selectedPostIt.voted || !work_in.is_leader"
-            >
-              <font-awesome-icon icon="thumbs-up" />
-            </b-button>
-          </b-col>
-          <b-col >
-              <b-badge
-                class="p-2"
-                :class="stateBadgeConfig.class"
-                v-b-popover.hover.left.v-info="'Estado del post-it.'"
+        <b-container class="text-center">
+          <b-row align-h="start">
+            <b-col style="text-align: left">
+              <b-button
+                class="px-5"
+                variant="success"
+                @click="vote(1)"
+                :disabled="selectedPostIt.voted || !work_in.is_leader"
               >
-                {{ stateBadgeConfig.text }}
-              </b-badge>
-      
-          </b-col>
-          <b-col style="text-align: right">
-            <b-button
-          class="px-5"
-          variant="danger"
-          @click="vote(0)"
-          :disabled="selectedPostIt.voted || !work_in.is_leader"
-        >
-          <font-awesome-icon icon="thumbs-down" />
-        </b-button>
-          </b-col>
-        </b-row>
-      </b-container>
-
-
-            
-
-
-      
-
-      <div class="w-100 px-3 d-flex justify-content-center">
+                <font-awesome-icon icon="thumbs-up" />
+              </b-button>
+            </b-col>
+            <b-col >
+                <b-badge
+                  class="p-2"
+                  :class="stateBadgeConfig.class"
+                  v-b-popover.hover.left.v-info="'Estado del post-it.'"
+                >
+                  {{ stateBadgeConfig.text }}
+                </b-badge>
         
-        
+            </b-col>
+            <b-col style="text-align: right">
+              <b-button
+            class="px-5"
+            variant="danger"
+            @click="vote(0)"
+            :disabled="selectedPostIt.voted || !work_in.is_leader"
+          >
+            <font-awesome-icon icon="thumbs-down" />
+          </b-button>
+            </b-col>
+          </b-row>
+        </b-container>
       </div>
+
+      <!-- Resutlado de votación del postit -->
 
       <hr/>
 
@@ -192,7 +182,7 @@ function getVoteInfo(vote){
   // vote passed as argument (that should be 0, 1, or 2).
 
   const index = parseInt(vote);
-  const messages = ['Rechazan', 'Aprueban', 'No han votado'];
+  const messages = ['Rechazan', 'Aprueban', 'Líder no ha votado'];
   const classes = ['danger', 'success', 'secondary'];
   return {message: messages[index], class: 'text-' + classes[index]};
 }
