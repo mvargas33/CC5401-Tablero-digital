@@ -370,7 +370,7 @@ export default {
       // Set the current selected postit and show the postit modal.
 
       this.selectedPostIt = postit;
-      this.$bvModal.show("info-post-it");
+      this.$bvModal.show("modify-post-it");
     },
     setVoted(postit) {
       // Sets postit.voted to true if the user is a team leader and has voted,

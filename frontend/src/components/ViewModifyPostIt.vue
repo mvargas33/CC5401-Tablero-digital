@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-modal
+    <!-- <b-modal
       id="info-post-it"
       :title="selectedPostIt.title"
       body-class="p-0"
@@ -28,37 +28,123 @@
 
       </div>
 
-      <h4 class="text-center mt-4">
-        <b-badge
-          class="p-2"
-          :class="stateBadgeConfig.class"
-          v-b-popover.hover.left.v-info="'Estado del post-it.'"
-        >
-          {{ stateBadgeConfig.text }}
-        </b-badge>
-      </h4>        
+    </b-modal> -->
 
-
-      <p class="mb-4 mt-4 text-center h6 text-secondary">{{ votingMessage }}</p>
-
-      <div class="w-100 px-3 d-flex justify-content-center">
-        <b-button
-          class="px-5 mr-4"
-          variant="success"
-          @click="vote(1)"
-          :disabled="selectedPostIt.voted || !work_in.is_leader"
+    <b-modal 
+      id="modify-post-it"
+      no-close-on-backdrop
+      
+      hide-footer
+      @shown="$emit('post-it-edit-begin')"
+      @hidden="$emit('post-it-edit-end')"
+    >
+      
+    <template v-slot:modal-title>
+      <b-container class="text-center">
+      <b-form
+        @submit.prevent="onSubmit"
+        id="edit-post-it-form"
+      >
+        <b-form-input
+          v-model="modifiedPostIt.title"
+          required
+          placeholder="Título"
+          class="mb-2"
+        />
+      </b-form>
+      </b-container>
+    </template>
+    <b-container class="text-center">
+      <b-form
+          @submit.prevent="onSubmit"
+          id="edit-post-it-form"
         >
-          <font-awesome-icon icon="thumbs-up" />
-        </b-button>
-        <b-button
-          class="px-5"
-          variant="danger"
-          @click="vote(0)"
-          :disabled="selectedPostIt.voted || !work_in.is_leader"
-        >
-          <font-awesome-icon icon="thumbs-down" />
-        </b-button>
+        <b-form-textarea
+          v-model="modifiedPostIt.description"
+          required
+          placeholder="Descripción"
+          class="description-textarea mb-2"
+        />
+        <b-form-select v-model="modifiedPostIt.section" required :options="sectionOptions" />
+      </b-form>
+    </b-container>
+
+      <!-- Botones Guardar cambios -->
+
+      <!-- <hr/>  -->
+
+      <b-container class="text-center pt-3">
+        <b-row align-h="start">
+          <b-col style="text-align: left">
+            <b-button
+            type="submit"
+            form="edit-post-it-form"
+            variant="primary"
+            class="mr-auto"
+            >
+            <font-awesome-icon icon="save" />
+            Guardar
+            </b-button>
+          </b-col>
+          <b-col >
+            <b-button @click="cancel()">
+              <font-awesome-icon icon="window-close" />
+              Cancelar</b-button>
+          </b-col>
+          <b-col style="text-align: right">
+            <b-button variant="danger" @click="eliminar()">
+            <font-awesome-icon icon="trash" />
+            Eliminar
+            </b-button>
+          </b-col>
+        </b-row>
+      </b-container>
+
+      <!-- Estado de votación del postit -->
+      <div v-if="work_in.is_leader">
+        <hr/>
+
+        <p class="mb-4 mt-4 text-center h6 text-secondary">{{ votingMessage }}</p>
+
+        <b-container class="text-center">
+          <b-row align-h="start">
+            <b-col style="text-align: left">
+              <b-button
+                class="px-5"
+                variant="success"
+                @click="vote(1)"
+                :disabled="selectedPostIt.voted || !work_in.is_leader"
+              >
+                <font-awesome-icon icon="thumbs-up" />
+              </b-button>
+            </b-col>
+            <b-col >
+                <b-badge
+                  class="p-2"
+                  :class="stateBadgeConfig.class"
+                  v-b-popover.hover.left.v-info="'Estado del post-it.'"
+                >
+                  {{ stateBadgeConfig.text }}
+                </b-badge>
+        
+            </b-col>
+            <b-col style="text-align: right">
+              <b-button
+            class="px-5"
+            variant="danger"
+            @click="vote(0)"
+            :disabled="selectedPostIt.voted || !work_in.is_leader"
+          >
+            <font-awesome-icon icon="thumbs-down" />
+          </b-button>
+            </b-col>
+          </b-row>
+        </b-container>
       </div>
+
+      <!-- Resutlado de votación del postit -->
+
+      <hr/>
 
       <div class="d-flex flex-wrap w-100 text-center justify-content-around pb-3">
         <div class="mt-4">
@@ -80,45 +166,9 @@
           </p>
         </div>
       </div>
-          
-    </b-modal>
 
-    <b-modal 
-      id="modify-post-it"
-      no-close-on-backdrop
-      title="Edición de Post-it"
-      @shown="$emit('post-it-edit-begin')"
-      @hidden="$emit('post-it-edit-end')"
-    >
-      <b-form
-        @submit.prevent="onSubmit"
-        id="edit-post-it-form"
-      >
-        <b-form-input
-          v-model="modifiedPostIt.title"
-          required
-          placeholder="Título"
-          class="mb-2"
-        />
-        <b-form-textarea
-          v-model="modifiedPostIt.description"
-          required
-          placeholder="Descripción"
-          class="description-textarea mb-2"
-        />
-        <b-form-select v-model="modifiedPostIt.section" required :options="sectionOptions" />
-      </b-form>
-      <template v-slot:modal-footer="{cancel}">
-          <b-button
-            type="submit"
-            form="edit-post-it-form"
-            variant="primary"
-            class="mr-auto"
-          >
-            Guardar
-          </b-button>
-          <b-button @click="cancel()">Cancelar</b-button>
-      </template>
+      
+
     </b-modal>
   </div>
 </template>
@@ -132,7 +182,7 @@ function getVoteInfo(vote){
   // vote passed as argument (that should be 0, 1, or 2).
 
   const index = parseInt(vote);
-  const messages = ['Rechazan', 'Aprueban', 'No han votado'];
+  const messages = ['Rechazan', 'Aprueban', 'Líder no ha votado'];
   const classes = ['danger', 'success', 'secondary'];
   return {message: messages[index], class: 'text-' + classes[index]};
 }
@@ -231,11 +281,18 @@ export default {
         .then(response => {
           this.$emit('postit-changed', this.selectedPostIt, response.data);
           this.$emit('board-changes-saved');
-          this.$bvModal.hide("info-post-it");
+          //this.$bvModal.hide("info-post-it");
+          this.$bvModal.hide("modify-post-it")
         })
         .catch(error => {
           console.log(error);
         });
+    },
+    cancel() {
+      this.$bvModal.hide("modify-post-it");
+    },
+    eliminar() { // TODO: Eliminar positit con llamada a axios
+      return
     }
   }
 };

@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'gp_gsy)lm8=0@jf!ooyzu7ap*y+88^9vl9u^3!mt27=wut4cs$')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False if os.environ.get('DJANGO_DEBUG_MODE') == 'false' else True
+# DEBUG = False if os.environ.get('DJANGO_DEBUG_MODE') == 'false' else True
 
 ALLOWED_HOSTS = []
 
@@ -64,6 +64,7 @@ INSTALLED_APPS = [
     'corsheaders',
 ]
 
+# Examina request desde front a back
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -94,18 +95,9 @@ TEMPLATES = [
     },
 ]
 
+# Servidor prod
 WSGI_APPLICATION = 'tablero_digital.wsgi.application'
 
-
-# Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
-
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
-}
 
 
 # Password validation
@@ -149,15 +141,3 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = []
 
 
-# Configurations for heroku:
-
-import django_heroku
-django_heroku.settings(locals())
-
-# Not a real Heroku configuration, only for this project:
-if os.environ.get('SINGLE_HEROKU_APP') == 'true':
-    # Set directory to search for Vue index.html.
-    TEMPLATES[0]['DIRS'].append(os.path.join(BASE_DIR, 'frontend/dist'))
-
-    # Set directory from wich to collect Vue static resources.
-    STATICFILES_DIRS.append(os.path.join(BASE_DIR, 'frontend/dist/static'))
