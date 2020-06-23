@@ -87,7 +87,9 @@
             </b-button>
           </b-col>
           <b-col >
-            <b-button @click="cancel()">Cancelar</b-button>
+            <b-button @click="cancel()">
+              <font-awesome-icon icon="window-close" />
+              Cancelar</b-button>
           </b-col>
           <b-col style="text-align: right">
             <b-button variant="danger" @click="eliminar()">

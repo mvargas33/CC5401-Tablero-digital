@@ -33,6 +33,9 @@ import {
   faEllipsisV,
   faLaptopCode,
   faBriefcase,
+  faTrash,
+  faSave,
+  faWindowClose,
 } from '@fortawesome/free-solid-svg-icons' // Import icons here
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
@@ -62,6 +65,9 @@ library.add(faCompressArrowsAlt, // Add the imported icons like this
   faEllipsisV,
   faLaptopCode,
   faBriefcase,
+  faTrash,
+  faSave,
+  faWindowClose
 )
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
