@@ -33,11 +33,14 @@
     <b-modal 
       id="modify-post-it"
       no-close-on-backdrop
-      :title="selectedPostIt.title"
+      
       hide-footer
       @shown="$emit('post-it-edit-begin')"
       @hidden="$emit('post-it-edit-end')"
     >
+      
+    <template v-slot:modal-title>
+      <b-container class="text-center">
       <b-form
         @submit.prevent="onSubmit"
         id="edit-post-it-form"
@@ -48,6 +51,14 @@
           placeholder="Título"
           class="mb-2"
         />
+      </b-form>
+      </b-container>
+    </template>
+    <b-container class="text-center">
+      <b-form
+          @submit.prevent="onSubmit"
+          id="edit-post-it-form"
+        >
         <b-form-textarea
           v-model="modifiedPostIt.description"
           required
@@ -56,6 +67,7 @@
         />
         <b-form-select v-model="modifiedPostIt.section" required :options="sectionOptions" />
       </b-form>
+    </b-container>
 
       <!-- Botones Guardar cambios -->
 
@@ -63,7 +75,7 @@
 
       <b-container class="text-center pt-3">
         <b-row align-h="start">
-          <b-col md="3">
+          <b-col style="text-align: left">
             <b-button
             type="submit"
             form="edit-post-it-form"
@@ -74,10 +86,10 @@
             Guardar
             </b-button>
           </b-col>
-          <b-col md="3">
+          <b-col >
             <b-button @click="cancel()">Cancelar</b-button>
           </b-col>
-          <b-col md="3">
+          <b-col style="text-align: right">
             <b-button variant="danger" @click="eliminar()">
             <font-awesome-icon icon="trash" />
             Eliminar
@@ -92,29 +104,32 @@
 
       <hr/>
 
-      <h4 class="text-center mt-4">
-        <b-badge
-          class="p-2"
-          :class="stateBadgeConfig.class"
-          v-b-popover.hover.left.v-info="'Estado del post-it.'"
-        >
-          {{ stateBadgeConfig.text }}
-        </b-badge>
-      </h4>        
-
-
       <p class="mb-4 mt-4 text-center h6 text-secondary">{{ votingMessage }}</p>
 
-      <div class="w-100 px-3 d-flex justify-content-center">
-        <b-button
-          class="px-5 mr-4"
-          variant="success"
-          @click="vote(1)"
-          :disabled="selectedPostIt.voted || !work_in.is_leader"
-        >
-          <font-awesome-icon icon="thumbs-up" />
-        </b-button>
-        <b-button
+      <b-container class="text-center">
+        <b-row align-h="start">
+          <b-col style="text-align: left">
+            <b-button
+              class="px-5"
+              variant="success"
+              @click="vote(1)"
+              :disabled="selectedPostIt.voted || !work_in.is_leader"
+            >
+              <font-awesome-icon icon="thumbs-up" />
+            </b-button>
+          </b-col>
+          <b-col >
+              <b-badge
+                class="p-2"
+                :class="stateBadgeConfig.class"
+                v-b-popover.hover.left.v-info="'Estado del post-it.'"
+              >
+                {{ stateBadgeConfig.text }}
+              </b-badge>
+      
+          </b-col>
+          <b-col style="text-align: right">
+            <b-button
           class="px-5"
           variant="danger"
           @click="vote(0)"
@@ -122,7 +137,22 @@
         >
           <font-awesome-icon icon="thumbs-down" />
         </b-button>
+          </b-col>
+        </b-row>
+      </b-container>
+
+
+            
+
+
+      
+
+      <div class="w-100 px-3 d-flex justify-content-center">
+        
+        
       </div>
+
+      <hr/>
 
       <div class="d-flex flex-wrap w-100 text-center justify-content-around pb-3">
         <div class="mt-4">
