@@ -15,7 +15,10 @@ export default new Vuex.Store({
       first_name: '',
       last_name: '',
       full_name: ''
-    }
+    },
+    active_users: { // Para usuarios activos en tablero
+      users: []
+    },
   },
   mutations: {
     setUser(state, { id, username, first_name, last_name }) {
@@ -28,6 +31,9 @@ export default new Vuex.Store({
     setStateIsLoaded(state, isLoaded){
       state.stateIsLoaded = isLoaded;
     },
+    newUserEvent(user){
+      Vue.set(state.active_users, 'users', [...user]) // [..myArray] will prevent changes to the object from other source to change your source, so it's a good idea to implement in getters too. https://stackoverflow.com/questions/50767191/vuex-update-an-entire-array/50767787
+    }
   },
   actions: {
     getAuthorization(context, { username, password }) {
@@ -86,6 +92,9 @@ export default new Vuex.Store({
     },
     clearStorage(){
       return localforage.clear();
+    },
+    newUserEvent(context, user){
+      context.commit('newUserEvent', user) // Esta action llama a la mutation que hace la pega
     }
   }
 });

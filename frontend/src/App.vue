@@ -6,7 +6,14 @@
 
 <script>
 export default {
-  components: {}
+  name: 'App',
+  components: {},
+  sockets: {
+    nuevoUsuario (data) {
+      console.log(data)
+      this.$store.dispatch('newUserEvent', data)
+    }
+  }
 };
 </script>
 
