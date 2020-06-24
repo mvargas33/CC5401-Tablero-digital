@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!--
     <b-modal
       id="info-post-it"
       :title="selectedPostIt.title"
@@ -39,8 +40,7 @@
       @hidden="$emit('post-it-edit-end')"
     >
 
-    <template v-slot:modal-title>
-      <b-container class="text-center">
+  <b-container class="text-center">
       <b-form
         @submit.prevent="onSubmit"
         id="edit-post-it-form"
@@ -51,8 +51,7 @@
           class="mb-2"
         />
       </b-form>
-      </b-container>
-    </template>
+  </b-container>
     <b-container class="text-center">
       <b-form
           @submit.prevent="onSubmit"
@@ -90,7 +89,8 @@
               Cancelar</b-button>
           </b-col>
           <b-col style="text-align: right">
-            <b-button variant="danger" @click="eliminar()">
+            <b-button variant="danger"  @click="$bvModal.hide('modify-post-it');$bvModal.show('confirm-delete')">
+
             <font-awesome-icon icon="trash" />
             Eliminar
             </b-button>
@@ -164,9 +164,29 @@
           </p>
         </div>
       </div>
+    </b-modal>
 
+    <b-modal
+    id="confirm-delete"
+    no-close-on-backdrop
+    title="Confirmar eliminación"
+    >
+    <p>¿Está seguro de que desea eliminar el postit?</p>
+    <template v-slot:modal-footer>
+      <b-button
+        @click="$bvModal.hide('confirm-delete');$bvModal.show('modify-post-it');"
+      >
+        Cancelar
+      </b-button>
+      <b-button
+        variant="primary"
+        class="mr-2"
+        @click="deletePostit();$bvModal.hide('confirm-delete');"
+      >
+        Confirmar
+      </b-button>
 
-
+      </template>
     </b-modal>
   </div>
 </template>
@@ -300,9 +320,6 @@ export default {
     },
     cancel() {
       this.$bvModal.hide("modify-post-it");
-    },
-    eliminar() { // TODO: Eliminar positit con llamada a axios
-      return
     }
   }
 };
