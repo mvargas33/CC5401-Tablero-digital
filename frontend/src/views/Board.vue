@@ -255,7 +255,7 @@ export default {
       this.updateInterval = setInterval(() => {
         this.getBoardUsers();
         this.getPostIts();
-      }, 1000 * 10); // Update every 10 seconds
+      }, 1000 * 4); // Update every 4 seconds
     });
   },
   beforeDestroy() {
