@@ -25,9 +25,10 @@ export default {
           short_title += word.slice(0, 15) + "- ";
           let remaining_word = word.slice(15, word.length);
           while (remaining_word.length >= 15) {
-            short_title += remaining_word.slice(0, Math.min(15, remaining_word.length)) + "- ";
-            remaining_word = remaining_word.slice(Math.min(15, remaining_word.length), remaining_word.length);
+            short_title += remaining_word.slice(0, 15) + "- ";
+            remaining_word = remaining_word.slice(15, remaining_word.length);
           }
+          short_title += remaining_word + " ";
         }
         else {
           short_title += word + " ";
