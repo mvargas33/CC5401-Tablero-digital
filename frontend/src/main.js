@@ -5,6 +5,8 @@ import './plugins/bootstrap-vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import VueSocketIO from 'vue-socket.io'
+
 // FontAwesome imports:
 import { library } from '@fortawesome/fontawesome-svg-core'
 import {
@@ -75,6 +77,17 @@ Vue.config.productionTip = false
 
 // Add store to router, so we can perform redirects based on state.
 router.store = store;
+
+// Socket.io config
+Vue.use(new VueSocketIO({
+  debug: true,
+  connection: 'http://localhost:3000',
+  vuex: {
+    store,
+    actionPrefix: 'SOCKET_',
+    mutationPrefix: 'SOCKET_'
+  }
+}))
 
 new Vue({
   router,
