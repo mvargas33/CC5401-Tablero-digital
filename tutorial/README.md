@@ -1,4 +1,26 @@
-# Pasos previos: Heroku
+# Run local
+
+## Requirements
+- Install NodeJS
+- Install Python 3.8
+
+## Back-end
+- Create a virtual environment `py -m venv venv`.
+- Activate the environment `.\venv\Scripts\activate` in Windows.
+- Install requirements with pip `pip install -r requirements.txt`.
+- Aplicar cambios del modelo `py manage.py makemigrations`.
+- Migrar modelos a la base de datos `py manage.py migrate`.
+- Run back-end server `py manage.py runserver`.
+
+## Front end
+
+- Go to front-end directory `cd frontend`.
+- Install dependencies `npm install`.
+- Run server `npm run serve`.
+
+# Deploy in Heroku
+
+## Requirements
 
 Son básicamente los mismos pasos que en [Getting Started](https://devcenter.heroku.com/articles/getting-started-with-python). Pero acá está en español.
 
