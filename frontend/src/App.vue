@@ -12,6 +12,9 @@ export default {
     nuevoUsuario (data) {
       console.log(data)
       this.$store.dispatch('newUserEvent', data)
+    },
+    connect: function () {
+      console.log('socket connected')
     }
   }
 };
