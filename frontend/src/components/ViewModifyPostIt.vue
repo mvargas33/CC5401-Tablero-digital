@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!-- <b-modal
+    <b-modal
       id="info-post-it"
       :title="selectedPostIt.title"
       body-class="p-0"
@@ -19,26 +19,26 @@
         </b-button>
 
         <b-button
-          variant="secondary"
-          @click="$bvModal.hide('info-post-it')"
-          class="mr-auto"
+          variant="danger"
+          class="mr-2"
+          @click="$bvModal.hide('info-post-it');$bvModal.show('confirm-delete')"
         >
-          Ocultar
+          Eliminar
         </b-button>
 
       </div>
 
     </b-modal> -->
 
-    <b-modal 
+    <b-modal
       id="modify-post-it"
       no-close-on-backdrop
-      
+
       hide-footer
       @shown="$emit('post-it-edit-begin')"
       @hidden="$emit('post-it-edit-end')"
     >
-      
+
     <template v-slot:modal-title>
       <b-container class="text-center">
       <b-form
@@ -124,7 +124,7 @@
                 >
                   {{ stateBadgeConfig.text }}
                 </b-badge>
-        
+
             </b-col>
             <b-col style="text-align: right">
               <b-button
@@ -165,7 +165,7 @@
         </div>
       </div>
 
-      
+
 
     </b-modal>
   </div>
@@ -281,6 +281,18 @@ export default {
           this.$emit('board-changes-saved');
           //this.$bvModal.hide("info-post-it");
           this.$bvModal.hide("modify-post-it")
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+
+    deletePostit(){
+      axios
+        .delete(`postit/${this.selectedPostIt.id}/`)
+        .then(response => {
+          this.$emit('board-changes-saved');
+          this.$emit('reset');
         })
         .catch(error => {
           console.log(error);

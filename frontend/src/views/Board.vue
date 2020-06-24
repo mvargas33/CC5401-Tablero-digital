@@ -11,6 +11,12 @@
       :board="board"
       :saved-changes="savedChangesCounter > 0"
     />
+    <div>
+      <b-alert
+      id="delete-alert" dismissible variant="danger" :show="delete_error_msg" @dismissed="delete_error_msg=false">
+        El post-it que estabas viendo ha sido eliminado por otro usuario
+      </b-alert>
+    </div>
 
     <!-- Normal board view -->
     <div v-show="!isZoomedIn" class="grid-container">
@@ -78,6 +84,7 @@
       @post-it-edit-end="isEditingPostIt = false"
       @postit-changed="changePostit"
       @board-changes-saved="incrementSavedChanges"
+      @reset="resetCurrentPostIt"
       :work_in="workIn"
       :user="user"
     />
@@ -229,7 +236,9 @@ export default {
       collaborators: [], // A list of workIn relations for the current board
       workIn: {}, // The workIn relation for the current user and board
       savedChangesCounter: 0, // Number of changes saved in the last 3 seconds
-      updateInterval: 0 // Identifier used in created()
+      updateInterval: 0, // Identifier used in created()
+      delete_error_msg: false, // Alerta dissmisable de error que otro borró posit actual
+      justDeleted: false // Recien eliminamos algo
     };
   },
   computed: {
@@ -279,8 +288,39 @@ export default {
             section.postits = [];
           }
 
+          console.log(Object.keys(this.selectedPostIt).length);
+          var deleted = true;
           for (let postit of response.data) {
             this.addPostIt(postit);
+            if(postit.id == this.selectedPostIt.id){
+              deleted = false;
+            }
+          }
+
+          // Si no hay nada seleccionado, no se muestra alerta (estado del created())
+          if(Object.keys(this.selectedPostIt).length == 0){
+            deleted = false;
+          }
+
+          if(this.justDeleted){
+            deleted = false;
+          }
+
+          // Si alguien esta editando posit que no existe se manda evento de error
+          if(deleted && this.isEditingPostIt){
+            console.log
+            // Cerrar todo
+            this.$bvModal.hide("modify-post-it");
+            this.$bvModal.hide("info-post-it");
+            this.$bvModal.hide('confirm-delete');
+
+            //this.selectedPostIt = {};
+            this.delete_error_msg = true;
+            this.selectedPostIt = {};
+            this.isEditingPostIt = false;
+
+            //this.$emit('current-postit-deleted');
+            //this.$emit('show-deleted-error');
           }
         })
         .catch(error => {
@@ -380,6 +420,7 @@ export default {
 
       this.selectedPostIt = postit;
       this.$bvModal.show("modify-post-it");
+      this.justDeleted = false; // Al seleccionar otro dejo de haber eliminado otro
     },
     setVoted(postit) {
       // Sets postit.voted to true if the user is a team leader and has voted,
@@ -415,6 +456,12 @@ export default {
         .catch(error => {
           console.log(error);
         });
+    },
+    resetCurrentPostIt(){
+      //console.log("Current post-it reseted");
+      this.justDeleted = true; // Recien eliminamos algo, no hacemos verificaciones de elminacion ajena
+      this.selectedPostIt = {};
+      this.isEditingPostIt = false;
     }
   }
 };
