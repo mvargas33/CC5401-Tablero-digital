@@ -265,12 +265,12 @@ export default {
         .delete(`postit/${this.selectedPostIt.id}/`)
         .then(response => {
           this.$emit('board-changes-saved');
+          this.$emit('reset');
         })
         .catch(error => {
           console.log(error);
         });        
-    },
-
+    }
   }
 };
 </script>
