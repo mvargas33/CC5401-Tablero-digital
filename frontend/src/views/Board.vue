@@ -67,7 +67,7 @@
       :selected-post-it="selectedPostIt"
       @post-it-edit-begin="isEditingPostIt = true"
       @post-it-edit-end="isEditingPostIt = false"
-      @postit-changed="changePostit"
+      @postit-changed="changePostit"     
       @board-changes-saved="incrementSavedChanges"
       :work_in="workIn"
       :user="user"

@@ -19,6 +19,7 @@ from .permissions import (
     WorkInViewSetPermission,
     PostitViewSetPermission,
 )
+import os
 
 
 class NoUpdateModelViewSet(mixins.CreateModelMixin,
@@ -146,7 +147,23 @@ class BoardViewSet(viewsets.ModelViewSet):
         else:
             self.permission_denied(
                 request, message='El usuario actual no es el líder de proyecto.')
-
+    
+    @action(detail=True, methods=['post'])
+    def generate_link(self, request, pk=None):
+        board = Board.objects.get(id=pk)
+        code = os.urandom(16).hex()
+        board.invitation_code = code
+        board.save()
+        link = "board/"+ pk +"/"+ code + "/invitation/"
+        return Response({f'detail': {link}})
+    
+    @action(detail=True, methods=['post'])
+    def disable_link(self, request, pk=None):
+        board = Board.objects.get(id=pk)
+        board.invitation_code = ""
+        board.save()
+        return Response(status=status.HTTP_200_OK)
+    
 
 class WorkInViewSet(NoUpdateModelViewSet):
     """WorkIn relations related to the current authenticated user and his

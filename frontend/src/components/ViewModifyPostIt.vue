@@ -20,8 +20,8 @@
 
         <b-button
           variant="danger"
-          @click="$bvModal.hide('info-post-it');$bvModal.show('confirm-delete')"
-          class="mr-auto"
+          class="mr-2"
+          @click="$bvModal.hide('info-post-it');$bvModal.show('confirm-delete')"         
         >
           Eliminar
         </b-button>
@@ -252,7 +252,6 @@ export default {
       axios
         .get(`postit/${this.selectedPostIt.id}/${action}/`)
         .then(response => {
-          this.$emit('postit-changed', this.selectedPostIt, response.data);
           this.$emit('board-changes-saved');
           this.$bvModal.hide("info-post-it");
         })
@@ -263,8 +262,13 @@ export default {
 
     deletePostit(){
       axios      
-        .delete(`postit/${this.selectedPostIt.id}/`);
-        this.$emit('board-changes-saved');
+        .delete(`postit/${this.selectedPostIt.id}/`)
+        .then(response => {
+          this.$emit('board-changes-saved');
+        })
+        .catch(error => {
+          console.log(error);
+        });        
     },
 
   }
