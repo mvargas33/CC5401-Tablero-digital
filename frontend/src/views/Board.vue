@@ -12,7 +12,7 @@
       :saved-changes="savedChangesCounter > 0"
     />
 
-    <!-- Normal expanded view -->
+    <!-- Normal board view -->
     <div v-show="!isZoomedIn" class="grid-container">
       <Section
         v-for="section in sections"
@@ -47,6 +47,7 @@
           :postit="postit"
         />
       </ul>
+      <!-- Zoom out button -->
       <b-button
         class="zoom-section-button rounded-circle"
         style="right: 20px;"
@@ -54,8 +55,9 @@
       >
         <font-awesome-icon icon="compress-arrows-alt" />
       </b-button>
+      <!-- Create postit -->
       <b-button
-        v-b-modal.create-post-it
+        @click="newPostIt(currentSection)"
         class="zoom-section-button rounded-circle"
         style="right: 130px;"
       >
@@ -401,15 +403,14 @@ export default {
         section: this.currentSection.value,
         status: "O"
       }
-      console.log(new_postit)
       // Push a endpoint en el back
       axios
         .post("postit/", new_postit)
         .then(response => {
           console.log(response)
-          //this.addPostIt(response.data);      // Poner el post-it en la sección
-          //this.incrementSavedChanges();       // ¿? Save message ¿?
-          //this.selectPostIt(response.data);
+          this.addPostIt(response.data);      // Poner el post-it en la sección
+          this.incrementSavedChanges();       // ¿? Save message ¿?
+          this.selectPostIt(response.data);
         })
         .catch(error => {
           console.log(error);
