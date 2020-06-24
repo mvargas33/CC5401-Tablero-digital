@@ -1,5 +1,6 @@
 <template>
   <div>
+    <!--  Navbar -->
     <nav-bar-project
       @new-collaborator="addCollaborator"
       @collaborator-deleted="deleteCollaborator"
@@ -10,6 +11,8 @@
       :board="board"
       :saved-changes="savedChangesCounter > 0"
     />
+
+    <!-- Normal board view -->
     <div v-show="!isZoomedIn" class="grid-container">
       <Section
         v-for="section in sections"
@@ -17,10 +20,12 @@
         v-model="selectedPostIt"
         :section="section"
         @zoom-in-section="currentSection = section; isZoomedIn = true;"
-        @create-post-it="currentSection = section"
+        @create-post-it="newPostIt(section)"
         @post-it-selected="selectPostIt"
       />
     </div>
+
+    <!-- Zommed section view -->
     <div v-show="isZoomedIn">
       <h2
         id="zoom-section-title"
@@ -42,6 +47,7 @@
           :postit="postit"
         />
       </ul>
+      <!-- Zoom out button -->
       <b-button
         class="zoom-section-button rounded-circle"
         style="right: 20px;"
@@ -49,20 +55,23 @@
       >
         <font-awesome-icon icon="compress-arrows-alt" />
       </b-button>
+      <!-- Create postit -->
       <b-button
-        v-b-modal.create-post-it
+        @click="newPostIt(currentSection)"
         class="zoom-section-button rounded-circle"
         style="right: 130px;"
       >
         <font-awesome-icon icon="plus" />
       </b-button>
     </div>
-    <create-post-it
+
+    <!-- Hidden modal de modificar post-it/ Se activa con eventos post-it-edit-begin/post-it-edit-end -->
+    <!-- <create-post-it
       @postit-created="addPostIt"
       :current-board="board"
       :selected-section="currentSection"
       @board-changes-saved="incrementSavedChanges"
-    />
+    /> -->
     <view-modify-post-it
       :selected-post-it="selectedPostIt"
       @post-it-edit-begin="isEditingPostIt = true"
@@ -80,7 +89,7 @@ import axios from "@/custom_axios.js";
 import NavBarProject from "../components/NavBarProject.vue";
 import Section from "../components/Section.vue";
 import ViewModifyPostIt from "../components/ViewModifyPostIt.vue";
-import CreatePostIt from "../components/CreatePostIt.vue";
+//import CreatePostIt from "../components/CreatePostIt.vue";
 import PostItLarge from "../components/PostItLarge.vue";
 import SelectTeamModal from "@/components/SelectTeamModal.vue";
 import SectionInfoPopOver from "@/components/SectionInfoPopOver.vue";
@@ -92,7 +101,7 @@ export default {
     NavBarProject,
     Section,
     ViewModifyPostIt,
-    CreatePostIt,
+    //CreatePostIt,
     PostItLarge,
     SelectTeamModal,
     SectionInfoPopOver
@@ -383,6 +392,29 @@ export default {
         else if (this.workIn.team == "D")
           postit.voted = postit.developers_vote != 2;
       }
+    },
+    newPostIt(seccion){
+      this.currentSection = seccion;
+      // PostIt vacío
+      var new_postit = {
+        title: "",
+        description: "",
+        board: this.board.id,
+        section: this.currentSection.value,
+        status: "O"
+      }
+      // Push a endpoint en el back
+      axios
+        .post("postit/", new_postit)
+        .then(response => {
+          console.log(response)
+          this.addPostIt(response.data);      // Poner el post-it en la sección
+          this.incrementSavedChanges();       // ¿? Save message ¿?
+          this.selectPostIt(response.data);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     }
   }
 };

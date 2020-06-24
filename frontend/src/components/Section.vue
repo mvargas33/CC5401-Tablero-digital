@@ -1,5 +1,6 @@
 <template>
   <div class="section" :class="section.cssClass">
+    <!-- Título -->
     <h1 
       :id="'section-title-' + section.value"
       class="section-title text-secondary d-inline-block"
@@ -12,6 +13,7 @@
         :section="section"
        />
     </h1>
+    <!-- Container de todos los postits -->
     <ul class="post-it-container">
       <post-it-small
         v-for="postit in section.postits"
@@ -20,14 +22,16 @@
         @post-it-selected="$emit('post-it-selected', postit)"
       />
     </ul>
+    <!-- Botón de Zoom IN -->
     <b-button
       @click="$emit('zoom-in-section')"
       class="zoom-section rounded-circle"
     >
       <font-awesome-icon icon="expand-arrows-alt"></font-awesome-icon>
     </b-button>
+    <!-- Botón de crear post-it -->
     <b-button
-      v-b-modal.create-post-it
+     
       @click="$emit('create-post-it')"
       class="add-post-it rounded-circle"
     >

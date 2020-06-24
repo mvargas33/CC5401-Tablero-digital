@@ -25,8 +25,8 @@ class WorkIn(models.Model):
 
 # Post-its
 class PostIt(models.Model):
-    title = models.CharField(max_length=90)
-    description = models.TextField()
+    title = models.CharField(max_length=90, blank=True) # blank=Ture === El campo puede venir vacío
+    description = models.TextField(blank=True)
     board = models.ForeignKey(Board, on_delete=models.CASCADE)
     vote_choices = [
         (0, 'No'),

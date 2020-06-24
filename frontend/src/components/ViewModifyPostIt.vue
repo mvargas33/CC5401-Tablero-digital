@@ -47,7 +47,6 @@
       >
         <b-form-input
           v-model="modifiedPostIt.title"
-          required
           placeholder="Título"
           class="mb-2"
         />
@@ -61,7 +60,6 @@
         >
         <b-form-textarea
           v-model="modifiedPostIt.description"
-          required
           placeholder="Descripción"
           class="description-textarea mb-2"
         />
