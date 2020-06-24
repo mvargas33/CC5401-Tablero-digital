@@ -13,7 +13,7 @@
     <div>
       <b-alert
       id="delete-alert" dismissible variant="danger" :show="delete_error_msg" @dismissed="delete_error_msg=false">
-        El post-it ha sido eliminado por otro usuario
+        El post-it que estabas viendo ha sido eliminado por otro usuario
       </b-alert>
     </div>
     <div v-show="!isZoomedIn" class="grid-container">
