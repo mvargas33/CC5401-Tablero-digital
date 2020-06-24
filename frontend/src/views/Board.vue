@@ -275,6 +275,7 @@ export default {
         .catch(error => {
           console.log(error);
         });
+      this.$socket.emit('appenduser', this.user);
     },
     getPostIts() {
       // Gets postits for the current board and adds them to the corresponding
@@ -421,6 +422,8 @@ export default {
       this.selectedPostIt = postit;
       this.$bvModal.show("modify-post-it");
       this.justDeleted = false; // Al seleccionar otro dejo de haber eliminado otro
+      this.$socket.emit('appenduser');
+      console.log(this.$socket)
     },
     setVoted(postit) {
       // Sets postit.voted to true if the user is a team leader and has voted,
@@ -462,6 +465,16 @@ export default {
       this.justDeleted = true; // Recien eliminamos algo, no hacemos verificaciones de elminacion ajena
       this.selectedPostIt = {};
       this.isEditingPostIt = false;
+    }
+  },
+  sockets: {
+    new_user (data) {
+      console.log('new_user')
+      console.log(data)
+      //this.$store.dispatch('newUserEvent', data)
+    },
+    connect: function () {
+      console.log('socket connected')
     }
   }
 };
