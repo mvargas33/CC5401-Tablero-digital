@@ -1,5 +1,6 @@
 'use strict' // Para usar nueva notación de JS
 
+const delay = require('delay');
 const bodyParser = require('body-parser'); // Para parsear solicitudes POST y otras
 const app = require('express')() // Servidor
 const server = require('http').Server(app);
@@ -21,6 +22,18 @@ io.on('connection', function(socket) {
         console.log('A user disconnected');
     })
 
-    io.emit('new_user', {user: nuevoUser});
+    io.emit('new_user', {user: "Angelica"});
 })
 
+io.on('appenduser' , function(socket) {
+    console.log('appenduser');
+    //console.log(data)
+})
+
+async function init(){
+    while(1){
+        io.emit('new_user', {user: "Angelica"});
+        await delay(1000)
+    }
+}
+init()
