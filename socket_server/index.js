@@ -22,21 +22,28 @@ io.on('connection', function(socket) {
         console.log('A user disconnected');
     })
 
-    socket.on('appenduser' , function(data) {
-        console.log('appenduser');
+    socket.on('boardjoin' , function(data) {
+        console.log('boardjoin');
         console.log(data)
-        socket.emit('new_user', {user: "Angelica"});
+        io.emit('boardjoin', data); // Broadcast to all clients
     })
 
+    socket.on('selectpostit' , function(data) {
+        console.log('selectpostit');
+        console.log(data)
+        io.emit('selectpostit', data); // Broadcast to all clients
+    })
+
+    
     
 })
 
 
 
-async function init(){
-    while(1){
-        io.emit('new_user', {user: "Angelica"});
-        await delay(1000)
-    }
-}
-init()
+// async function init(){
+//     while(1){
+//         io.emit('new_user', {user: "Angelica"});
+//         await delay(1000)
+//     }
+// }
+// init()

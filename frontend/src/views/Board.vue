@@ -257,6 +257,10 @@ export default {
         this.getPostIts();
       }, 1000 * 4); // Update every 4 seconds
     });
+
+    this.sockets.subscribe('newuser', (data) => {
+      console.log(data);
+    });
   },
   beforeDestroy() {
     // Clears the update interval.
@@ -275,7 +279,7 @@ export default {
         .catch(error => {
           console.log(error);
         });
-      this.$socket.emit('appenduser', this.user);
+      this.$socket.client.emit('boardjoin', this.user);
     },
     getPostIts() {
       // Gets postits for the current board and adds them to the corresponding
@@ -289,7 +293,7 @@ export default {
             section.postits = [];
           }
 
-          console.log(Object.keys(this.selectedPostIt).length);
+          //console.log(Object.keys(this.selectedPostIt).length);
           var deleted = true;
           for (let postit of response.data) {
             this.addPostIt(postit);
@@ -309,7 +313,6 @@ export default {
 
           // Si alguien esta editando posit que no existe se manda evento de error
           if(deleted && this.isEditingPostIt){
-            console.log
             // Cerrar todo
             this.$bvModal.hide("modify-post-it");
             this.$bvModal.hide("info-post-it");
@@ -424,8 +427,8 @@ export default {
       this.justDeleted = false; // Al seleccionar otro dejo de haber eliminado otro
       var data = {user: this.user, postit: postit}
       
-      this.$socket.emit('appenduser', data);
-      console.log(this.$socket)
+      this.$socket.client.emit('selectpostit', data);
+      //console.log(this.$socket)
     },
     setVoted(postit) {
       // Sets postit.voted to true if the user is a team leader and has voted,
@@ -453,7 +456,7 @@ export default {
       axios
         .post("postit/", new_postit)
         .then(response => {
-          console.log(response)
+          //console.log(response)
           this.addPostIt(response.data);      // Poner el post-it en la sección
           this.incrementSavedChanges();       // ¿? Save message ¿?
           this.selectPostIt(response.data);
@@ -470,10 +473,14 @@ export default {
     }
   },
   sockets: {
-    new_user (data) {
-      console.log('new_user')
+    boardjoin: function (data) {
+      console.log('Alguien se unió al board:')
       console.log(data)
       //this.$store.dispatch('newUserEvent', data)
+    },
+    selectpostit: function (data){
+      console.log('Alguien seleccionó un postit')
+      console.log(data)
     },
     connect: function () {
       console.log('socket connected')
