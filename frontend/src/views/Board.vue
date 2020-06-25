@@ -422,7 +422,9 @@ export default {
       this.selectedPostIt = postit;
       this.$bvModal.show("modify-post-it");
       this.justDeleted = false; // Al seleccionar otro dejo de haber eliminado otro
-      this.$socket.emit('appenduser');
+      var data = {user: this.user, postit: postit}
+      
+      this.$socket.emit('appenduser', data);
       console.log(this.$socket)
     },
     setVoted(postit) {

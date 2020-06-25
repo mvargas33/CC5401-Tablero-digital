@@ -22,13 +22,16 @@ io.on('connection', function(socket) {
         console.log('A user disconnected');
     })
 
-    io.emit('new_user', {user: "Angelica"});
+    socket.on('appenduser' , function(data) {
+        console.log('appenduser');
+        console.log(data)
+        socket.emit('new_user', {user: "Angelica"});
+    })
+
+    
 })
 
-io.on('appenduser' , function(socket) {
-    console.log('appenduser');
-    //console.log(data)
-})
+
 
 async function init(){
     while(1){
