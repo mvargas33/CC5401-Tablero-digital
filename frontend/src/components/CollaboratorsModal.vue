@@ -17,20 +17,27 @@
           <li v-for="collab in team.collaborators" :key="collab.id" class="collab-list-item">
             <span class="list-item-collab-name">{{ collab.user.full_name }}</span>
             <b-badge v-if="collab.is_leader" variant="info">Líder</b-badge>
+
+            <!-- Si no se es líder o dueño del board, el dropdown no aparece -->
             <b-dropdown
               toggle-class="collab-item-menu"
               right
               :class="{'ml-auto': !collab.is_leader}"
+              v-if="iOwnThisBoard || workIn.is_leader"
             >
               <template v-slot:button-content>
                 <font-awesome-icon class="menu-icon" icon="ellipsis-v" />
               </template>
+
+              <!-- Opción de cambiar líder sólo visible para líderes de equipo -->
               <b-dropdown-item
-                v-if="team.name != 'No asignados'"
+                v-if="team.name != 'No asignados' && workIn.is_leader"
                 href="#"
                 @click="beforeChangeLeader(collab)"
               >Líder de equipo</b-dropdown-item>
-              <b-dropdown-item href="#" @click="beforeDeleteCollab(collab)">Eliminar</b-dropdown-item>
+
+              <!-- Opción de eliminar colaboradores sólo para dueño del tablero -->
+              <b-dropdown-item v-if="iOwnThisBoard" href="#" @click="beforeDeleteCollab(collab)">Eliminar</b-dropdown-item>
             </b-dropdown>
           </li>
         </ul>
@@ -95,7 +102,8 @@ export default {
     board: Object,
     user: Object,
     isProjectLeader: Boolean,
-    workIn: Object
+    workIn: Object,
+    iOwnThisBoard: Boolean
   },
   data() {
     return {

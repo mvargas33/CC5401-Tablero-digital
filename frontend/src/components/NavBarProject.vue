@@ -79,6 +79,7 @@
       :user="user"
       :is-project-leader="isProjectLeader"
       :workIn="workIn"
+      :iOwnThisBoard="iOwnThisBoard"
       @collaborator-deleted="collaboratorDeleted"
       @changed-leader="changedLeader"
 
@@ -132,7 +133,8 @@ export default {
     board: Object,
     workIn: Object,
     collaborators: Array,
-    savedChanges: Boolean
+    savedChanges: Boolean,
+    iOwnThisBoard: Boolean
   },
   data() {
     return { selectedCollab: "" };
