@@ -1,11 +1,15 @@
 <template>
   <li
-    @click="$emit('click')"
-    :class="postit.status"
     class="post-it-large p-3 mr-4 mb-4"
+    :class="postit.status"
+    @click="$emit('click')"
+    :id="postit.title + postit.description + postit.title"
   >
-    <h3 class="">{{ title }}</h3>
-    <p class="post-it-description p-0">{{ description }}</p>
+    <h3>{{ text }}</h3>
+    <p class="post-it-description p-0">{{ descr }}</p>
+    <b-tooltip :target="postit.title + postit.description + postit.title" triggers="hover" placement="bottom">
+    {{postit.title}}
+    </b-tooltip>
   </li>
 
 </template>
@@ -25,13 +29,13 @@ export default {
   name: "PostItLarge",
   props: ["postit"],
   computed: {
-    title(){
+    text(){
       return textEllipsis(this.postit.title, 50);
     },
-    description(){
+    descr(){
       return textEllipsis(this.postit.description, 140);
     },
-  }
+  },
 };
 </script>
 

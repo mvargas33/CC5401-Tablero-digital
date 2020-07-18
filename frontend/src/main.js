@@ -71,6 +71,9 @@ library.add(faCompressArrowsAlt, // Add the imported icons like this
 )
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
+import { BTooltip } from 'bootstrap-vue'
+Vue.component('b-tooltip', BTooltip)
+
 Vue.config.productionTip = false
 
 // Add store to router, so we can perform redirects based on state.

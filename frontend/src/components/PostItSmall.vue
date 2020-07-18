@@ -3,9 +3,14 @@
     class="post-it-small"
     :class="postit.status"
     @click="$emit('post-it-selected');"
+    :id="postit.title + postit.description"
   >
   {{text}}
+  <b-tooltip :target="postit.title + postit.description" triggers="hover" placement="bottom">
+    {{postit.title}}
+  </b-tooltip>
   </li>
+  
 </template>
 
 <script>
@@ -38,7 +43,7 @@ export default {
       if (short_title.length < 40)
         return short_title;
       return short_title.slice(0, 40) + '...';
-    }
+    },
   },
 };
 </script>
