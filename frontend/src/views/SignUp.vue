@@ -26,11 +26,19 @@
           </small>
         </b-form-group>
         <b-form-group label="Ingresa tu contraseña:" label-for="password">
-          <b-input @keypress="valid_password = true" v-model="user.password" id="password" :class="{'is-invalid': !valid_password}" type="password" placeholder="Contraseña" required></b-input>
+          <b-input @keypress="valid_password = true;valid_repeated_password = true" v-model="user.password" id="password" :class="{'is-invalid': !valid_password}" type="password" placeholder="Contraseña" required></b-input>
           <small class="form-text" :class="classes_password">
             Campo requerido.
           </small>
         </b-form-group>
+        <!-- Repetición de contraseña -->
+        <b-form-group label="Repite tu contraseña:" label-for="repeated_password">
+          <b-input @keypress="valid_password = true;valid_repeated_password = true" v-model="repeated_password" id="password_rep" :class="{'is-invalid': !valid_repeated_password}" type="password" placeholder="Repita la Contraseña" required></b-input>
+          <small class="form-text" :class="classes_rep_password">
+            Las contraseñas no coinciden.
+          </small>
+        </b-form-group>
+        <!-- Botón de crear -->
         <b-button type="submit" block variant="success">Crear</b-button>
       </b-form>
 
@@ -70,6 +78,8 @@ export default {
       valid_first_name: true,
       valid_last_name: true,
       valid_password: true,
+      valid_repeated_password: true,
+      repeated_password: ''
     }
   },
   computed: {
@@ -78,6 +88,7 @@ export default {
       classes_first_name() { return computClasses(this.valid_first_name); },
       classes_last_name() { return computClasses(this.valid_last_name); },
       classes_password() { return computClasses(this.valid_password); },
+      classes_rep_password() { return computClasses(this.valid_repeated_password); },
   },
   methods: {
     formIsValid() {
@@ -106,10 +117,16 @@ export default {
         this.valid_password = false;
       }
 
+      // Repeated password confirmation
+      if (this.user.password != this.repeated_password){
+        this.valid_repeated_password = false;
+      }
+      
       return this.valid_username &&
         this.valid_first_name &&
         this.valid_last_name &&
-        this.valid_password
+        this.valid_password &&
+        this.valid_repeated_password
     },
     sendForm(){
       // Sends the information to create a new user, if success, then sends the
