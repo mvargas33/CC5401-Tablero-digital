@@ -26,15 +26,20 @@
           </small>
         </b-form-group>
         <b-form-group label="Ingresa tu contraseña:" label-for="password">
-          <b-input @keypress="valid_password = true;valid_repeated_password = true" v-model="user.password" id="password" :class="{'is-invalid': !valid_password}" type="password" placeholder="Contraseña" required></b-input>
+          <b-input @keypress="valid_password = true;valid_repeated_password = true"
+          @keydown.delete="valid_password = true;valid_repeated_password = true"
+          v-model="user.password" id="password" :class="{'is-invalid': !valid_password}" type="password" placeholder="Contraseña" required></b-input>
           <small class="form-text" :class="classes_password">
             Campo requerido.
           </small>
         </b-form-group>
         <!-- Repetición de contraseña -->
         <b-form-group label="Repite tu contraseña:" label-for="repeated_password">
-          <b-input @keypress="valid_password = true;valid_repeated_password = true" v-model="repeated_password" id="password_rep" :class="{'is-invalid': !valid_repeated_password}" type="password" placeholder="Repita la Contraseña" required></b-input>
-          <small class="form-text" :class="classes_rep_password">
+          <b-input @keypress="valid_password = true;valid_repeated_password = true"
+          @keydown.delete="valid_password = true;valid_repeated_password = true"
+          
+          v-model="repeated_password" id="password_rep" :class="{'is-invalid': !valid_repeated_password}" type="password" placeholder="Repita la Contraseña" required></b-input>
+          <small class="form-text" :class="classes_rep_password" v-if="!valid_repeated_password">
             Las contraseñas no coinciden.
           </small>
         </b-form-group>
