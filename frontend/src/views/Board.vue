@@ -10,6 +10,7 @@
       :collaborators="collaborators"
       :board="board"
       :saved-changes="savedChangesCounter > 0"
+      :iOwnThisBoard="iOwnThisBoard"
     />
     <div>
       <b-alert
@@ -238,7 +239,8 @@ export default {
       savedChangesCounter: 0, // Number of changes saved in the last 3 seconds
       updateInterval: 0, // Identifier used in created()
       delete_error_msg: false, // Alerta dissmisable de error que otro borró posit actual
-      justDeleted: false // Recien eliminamos algo
+      justDeleted: false, // Recien eliminamos algo
+      iOwnThisBoard: false
     };
   },
   computed: {
@@ -288,7 +290,7 @@ export default {
             section.postits = [];
           }
 
-          console.log(Object.keys(this.selectedPostIt).length);
+          //console.log(Object.keys(this.selectedPostIt).length);
           var deleted = true;
           for (let postit of response.data) {
             this.addPostIt(postit);
@@ -308,7 +310,7 @@ export default {
 
           // Si alguien esta editando posit que no existe se manda evento de error
           if(deleted && this.isEditingPostIt){
-            console.log
+            //console.log
             // Cerrar todo
             this.$bvModal.hide("modify-post-it");
             this.$bvModal.hide("info-post-it");
@@ -341,6 +343,12 @@ export default {
             user.full_name = user.first_name + " " + user.last_name;
             if (this.user.id == user.id) {
               this.workIn = workIn;
+              // Check if I own this board
+              // console.log(this.board.project_leader)
+              // console.log(this.user.id)
+              if(this.user.id == this.board.project_leader){
+                this.iOwnThisBoard = true;
+              }
               // Check if current user has team.
               if (workIn.team == "U") {
                 this.$bvModal.show("select-team-modal");
@@ -448,7 +456,7 @@ export default {
       axios
         .post("postit/", new_postit)
         .then(response => {
-          console.log(response)
+          //console.log(response)
           this.addPostIt(response.data);      // Poner el post-it en la sección
           this.incrementSavedChanges();       // ¿? Save message ¿?
           this.selectPostIt(response.data);
