@@ -20,6 +20,7 @@
           :key="postit.id"
           :postit="postit"
           @post-it-selected="$emit('post-it-selected', postit)"
+          @posit-mouseover="$emit('posit-mouseover', postit)"
         />
     </ul>
     <!-- Botón de Zoom IN -->
@@ -52,9 +53,20 @@ export default {
     PostItSmall,
     SectionInfoPopOver,
   },
-  props: ["section"],
+  props:
+  ["section", "allSections"],
   methods: {
-    postitMovedHere(postitMoved){
+    postitMovedHere(postitMovedID){
+      // Find posit-it (Porque si se pasa el postit directamente, la referencia es a una versión antigua del postit. Conveine mandar el ID)
+      var postitMoved;
+      this.allSections.forEach(s => {
+        s.postits.forEach(p =>  {
+          if(p.id == postitMovedID){
+            postitMoved = p;
+          }
+        });
+      });
+
       const oldPostIt = {...postitMoved}
       console.log(oldPostIt)
       const newPostIt = {...postitMoved}

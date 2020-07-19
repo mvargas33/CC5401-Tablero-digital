@@ -25,12 +25,14 @@
         :key="section.title"
         v-model="selectedPostIt"
         :section="section"
+        :allSections="sections"
         @zoom-in-section="currentSection = section; isZoomedIn = true;"
         @create-post-it="newPostIt(section)"
         @post-it-selected="selectPostIt"
 
         @board-changes-saved="incrementSavedChanges"
         @moved-postit="changePostit"
+        @posit-mouseover="onlySelectPostIt"
       />
     </div>
 
@@ -401,6 +403,7 @@ export default {
     },
     changePostit(oldPostit, newPostit) {
       console.log("changePostIt")
+      console.log(this.sections)
       // Changes a postit, moves it to another section if necessary.
 
       this.setVoted(newPostit);
@@ -435,6 +438,10 @@ export default {
 
       this.selectedPostIt = postit;
       this.$bvModal.show("modify-post-it");
+      this.justDeleted = false; // Al seleccionar otro dejo de haber eliminado otro
+    },
+    onlySelectPostIt(postit) {
+      this.selectedPostIt = postit;
       this.justDeleted = false; // Al seleccionar otro dejo de haber eliminado otro
     },
     setVoted(postit) {
