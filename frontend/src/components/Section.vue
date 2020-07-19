@@ -68,10 +68,10 @@ export default {
       });
 
       const oldPostIt = {...postitMoved}
-      console.log(oldPostIt)
+      //console.log(oldPostIt)
       const newPostIt = {...postitMoved}
       newPostIt.section = this.section.value // Change section
-      console.log(newPostIt)
+      //console.log(newPostIt)
 
       axios
         .put(`postit/${newPostIt.id}/`, newPostIt)

@@ -402,10 +402,11 @@ export default {
       this.setVoted(postit);
     },
     changePostit(oldPostit, newPostit) {
-      console.log("changePostIt")
-      console.log(this.sections)
+      // Guarda los cambios realizados sobre un postit, tiene una versión vieja del mismo y la con updates
+      // Considera los cambio de sección, y/o de
       // Changes a postit, moves it to another section if necessary.
-
+      //console.log("changePostIt")
+      //console.log(this.sections)
       this.setVoted(newPostit);
 
       const section = this.sections[oldPostit.section];
@@ -414,11 +415,11 @@ export default {
         this.$set(section.postits, index, newPostit);
       } else {
         // Move postit to the new section.
-        console.log("splice")
+        //console.log("splice")
         section.postits.splice(index, 1);
-        console.log(section.postits)
+        //console.log(section.postits)
         const newSection = this.sections[newPostit.section];
-        console.log("push")
+        //console.log("push")
         newSection.postits.push(newPostit);
         //this.getPostIts()
         this.getBoardUsers();
