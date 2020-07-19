@@ -1,4 +1,5 @@
 <template>
+  <div v-draggable.move="postit">
   <li
     class="post-it-small"
     :class="postit.status"
@@ -6,6 +7,7 @@
   >
   {{text}}
   </li>
+  </div>
 </template>
 
 <script>

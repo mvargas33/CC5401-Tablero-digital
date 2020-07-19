@@ -21,13 +21,16 @@
     <!-- Normal board view -->
     <div v-show="!isZoomedIn" class="grid-container">
       <Section
-        v-for="section in sections"
+        v-for="section in secciones"
         :key="section.title"
         v-model="selectedPostIt"
         :section="section"
         @zoom-in-section="currentSection = section; isZoomedIn = true;"
         @create-post-it="newPostIt(section)"
         @post-it-selected="selectPostIt"
+
+        @board-changes-saved="incrementSavedChanges"
+        @moved-postit="changePostit"
       />
     </div>
 
@@ -242,7 +245,11 @@ export default {
     };
   },
   computed: {
-    ...mapState(["user"])
+    ...mapState(["user"]),
+    secciones(){
+      return this.sections;
+    }
+    
   },
   created() {
     // Gets board, users and postits.
@@ -288,7 +295,7 @@ export default {
             section.postits = [];
           }
 
-          console.log(Object.keys(this.selectedPostIt).length);
+          //console.log(Object.keys(this.selectedPostIt).length);
           var deleted = true;
           for (let postit of response.data) {
             this.addPostIt(postit);
@@ -308,7 +315,7 @@ export default {
 
           // Si alguien esta editando posit que no existe se manda evento de error
           if(deleted && this.isEditingPostIt){
-            console.log
+            //console.log
             // Cerrar todo
             this.$bvModal.hide("modify-post-it");
             this.$bvModal.hide("info-post-it");
@@ -393,18 +400,26 @@ export default {
       this.setVoted(postit);
     },
     changePostit(oldPostit, newPostit) {
+      console.log("changePostIt")
       // Changes a postit, moves it to another section if necessary.
 
       this.setVoted(newPostit);
+
       const section = this.sections[oldPostit.section];
       const index = section.postits.indexOf(oldPostit);
       if (oldPostit.section == newPostit.section) {
         this.$set(section.postits, index, newPostit);
       } else {
         // Move postit to the new section.
+        console.log("splice")
         section.postits.splice(index, 1);
+        console.log(section.postits)
         const newSection = this.sections[newPostit.section];
+        console.log("push")
         newSection.postits.push(newPostit);
+        //this.getPostIts()
+        this.getBoardUsers();
+        this.getPostIts();
       }
     },
     incrementSavedChanges() {
