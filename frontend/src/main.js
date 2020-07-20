@@ -80,6 +80,10 @@ router.store = store;
 import vDragDrop from 'v-drag-drop';
 Vue.use(vDragDrop);
 
+// Tooltip Library
+import VTooltip from 'v-tooltip'
+Vue.use(VTooltip)
+
 new Vue({
   router,
   store,
