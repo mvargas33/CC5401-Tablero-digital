@@ -257,6 +257,10 @@ export default {
         this.getPostIts();
       }, 1000 * 4); // Update every 4 seconds
     });
+
+    this.sockets.subscribe('newuser', (data) => {
+      console.log(data);
+    });
   },
   beforeDestroy() {
     // Clears the update interval.
@@ -275,6 +279,7 @@ export default {
         .catch(error => {
           console.log(error);
         });
+      this.$socket.client.emit('boardjoin', this.user);
     },
     getPostIts() {
       // Gets postits for the current board and adds them to the corresponding
@@ -306,7 +311,6 @@ export default {
 
           // Si alguien esta editando posit que no existe se manda evento de error
           if(deleted && this.isEditingPostIt){
-            console.log
             // Cerrar todo
             this.$bvModal.hide("modify-post-it");
             this.$bvModal.hide("info-post-it");
@@ -423,6 +427,10 @@ export default {
       this.selectedPostIt = postit;
       this.$bvModal.show("modify-post-it");
       this.justDeleted = false; // Al seleccionar otro dejo de haber eliminado otro
+      var data = {user: this.user, postit: postit}
+      
+      this.$socket.client.emit('selectpostit', data);
+      //console.log(this.$socket)
     },
     setVoted(postit) {
       // Sets postit.voted to true if the user is a team leader and has voted,
@@ -450,7 +458,7 @@ export default {
       axios
         .post("postit/", new_postit)
         .then(response => {
-          console.log(response)
+          //console.log(response)
           this.addPostIt(response.data);      // Poner el post-it en la sección
           this.incrementSavedChanges();       // ¿? Save message ¿?
           this.selectPostIt(response.data);
@@ -464,6 +472,20 @@ export default {
       this.justDeleted = true; // Recien eliminamos algo, no hacemos verificaciones de elminacion ajena
       this.selectedPostIt = {};
       this.isEditingPostIt = false;
+    }
+  },
+  sockets: {
+    boardjoin: function (data) {
+      console.log('Alguien se unió al board:')
+      console.log(data)
+      //this.$store.dispatch('newUserEvent', data)
+    },
+    selectpostit: function (data){
+      console.log('Alguien seleccionó un postit')
+      console.log(data)
+    },
+    connect: function () {
+      console.log('socket connected')
     }
   }
 };
