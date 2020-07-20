@@ -76,6 +76,10 @@ Vue.config.productionTip = false
 // Add store to router, so we can perform redirects based on state.
 router.store = store;
 
+// Drag and drop library
+import vDragDrop from 'v-drag-drop';
+Vue.use(vDragDrop);
+
 new Vue({
   router,
   store,

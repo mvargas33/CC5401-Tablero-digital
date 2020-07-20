@@ -1,11 +1,14 @@
 <template>
+  <div v-draggable.move="postit.id">
   <li
     class="post-it-small"
     :class="postit.status"
     @click="$emit('post-it-selected');"
+    @mouseover="$emit('posit-mouseover')"
   >
   {{text}}
   </li>
+  </div>
 </template>
 
 <script>

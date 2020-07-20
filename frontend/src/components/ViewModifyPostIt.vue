@@ -225,7 +225,7 @@ export default {
         { value: 6, text: "Generación de métricas" },
         { value: 7, text: "Visualización, notificación y acción" },
         { value: 8, text: "Entorno" }
-      ],
+      ]
     };
   },
   computed: {
@@ -252,7 +252,7 @@ export default {
     developersVoteInfo() {
       return getVoteInfo(this.selectedPostIt.developers_vote);
     },
-    stateBadgeConfig(){
+    stateBadgeConfig() {
       const configs = {
         'O': {
           class: 'badge-open',
@@ -267,7 +267,13 @@ export default {
           text: 'Rechazado',
         }
       };
-      return configs[this.selectedPostIt.status];
+
+      // Cuando recién se abre el tablero no hay postits seleccionados, o cuando otro elimina el posit que tenía seleccionado
+      if(this.selectedPostIt.status === undefined){
+        return configs['R'];
+      }else{
+        return configs[this.selectedPostIt.status];
+      }
     }
   },
   methods: {

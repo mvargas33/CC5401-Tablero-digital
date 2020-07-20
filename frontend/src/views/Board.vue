@@ -22,13 +22,18 @@
     <!-- Normal board view -->
     <div v-show="!isZoomedIn" class="grid-container">
       <Section
-        v-for="section in sections"
+        v-for="section in secciones"
         :key="section.title"
         v-model="selectedPostIt"
         :section="section"
+        :allSections="sections"
         @zoom-in-section="currentSection = section; isZoomedIn = true;"
         @create-post-it="newPostIt(section)"
         @post-it-selected="selectPostIt"
+
+        @board-changes-saved="incrementSavedChanges"
+        @moved-postit="changePostit"
+        @posit-mouseover="onlySelectPostIt"
       />
     </div>
 
@@ -244,7 +249,11 @@ export default {
     };
   },
   computed: {
-    ...mapState(["user"])
+    ...mapState(["user"]),
+    secciones(){
+      return this.sections;
+    }
+    
   },
   created() {
     // Gets board, users and postits.
@@ -401,18 +410,28 @@ export default {
       this.setVoted(postit);
     },
     changePostit(oldPostit, newPostit) {
+      // Guarda los cambios realizados sobre un postit, tiene una versión vieja del mismo y la con updates
+      // Considera los cambio de sección, y/o de
       // Changes a postit, moves it to another section if necessary.
-
+      //console.log("changePostIt")
+      //console.log(this.sections)
       this.setVoted(newPostit);
+
       const section = this.sections[oldPostit.section];
       const index = section.postits.indexOf(oldPostit);
       if (oldPostit.section == newPostit.section) {
         this.$set(section.postits, index, newPostit);
       } else {
         // Move postit to the new section.
+        //console.log("splice")
         section.postits.splice(index, 1);
+        //console.log(section.postits)
         const newSection = this.sections[newPostit.section];
+        //console.log("push")
         newSection.postits.push(newPostit);
+        //this.getPostIts()
+        this.getBoardUsers();
+        this.getPostIts();
       }
     },
     incrementSavedChanges() {
@@ -428,6 +447,10 @@ export default {
 
       this.selectedPostIt = postit;
       this.$bvModal.show("modify-post-it");
+      this.justDeleted = false; // Al seleccionar otro dejo de haber eliminado otro
+    },
+    onlySelectPostIt(postit) {
+      this.selectedPostIt = postit;
       this.justDeleted = false; // Al seleccionar otro dejo de haber eliminado otro
     },
     setVoted(postit) {

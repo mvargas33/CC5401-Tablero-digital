@@ -1,5 +1,5 @@
 <template>
-  <div class="section" :class="section.cssClass">
+  <div class="section" :class="section.cssClass" v-droppable @drag-drop="postitMovedHere">
     <!-- Título -->
     <h1 
       :id="'section-title-' + section.value"
@@ -15,12 +15,13 @@
     </h1>
     <!-- Container de todos los postits -->
     <ul class="post-it-container">
-      <post-it-small
-        v-for="postit in section.postits"
-        :key="postit.id"
-        :postit="postit"
-        @post-it-selected="$emit('post-it-selected', postit)"
-      />
+        <post-it-small
+          v-for="postit in section.postits"
+          :key="postit.id"
+          :postit="postit"
+          @post-it-selected="$emit('post-it-selected', postit)"
+          @posit-mouseover="$emit('posit-mouseover', postit)"
+        />
     </ul>
     <!-- Botón de Zoom IN -->
     <b-button
@@ -41,6 +42,7 @@
 </template>
 
 <script>
+import axios from "@/custom_axios.js";
 import PostItSmall from "../components/PostItSmall.vue";
 import SectionInfoPopOver from '@/components/SectionInfoPopOver.vue';
 
@@ -51,7 +53,41 @@ export default {
     PostItSmall,
     SectionInfoPopOver,
   },
-  props: ["section"],
+  props:
+  ["section", "allSections"],
+  methods: {
+    postitMovedHere(postitMovedID){
+      // Find posit-it (Porque si se pasa el postit directamente, la referencia es a una versión antigua del postit. Conveine mandar el ID)
+      var postitMoved;
+      this.allSections.forEach(s => {
+        s.postits.forEach(p =>  {
+          if(p.id == postitMovedID){
+            postitMoved = p;
+          }
+        });
+      });
+
+      const oldPostIt = {...postitMoved}
+      //console.log(oldPostIt)
+      const newPostIt = {...postitMoved}
+      newPostIt.section = this.section.value // Change section
+      //console.log(newPostIt)
+
+      axios
+        .put(`postit/${newPostIt.id}/`, newPostIt)
+        .then(response => {
+          response.data.voted = false;
+          // Notify that the postit has been changed and hide the modal.
+          this.$emit('moved-postit', oldPostIt, response.data);
+          this.$emit('board-changes-saved');
+          //this.$bvModal.hide("modify-post-it");
+
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  }
 };
 </script>
 
