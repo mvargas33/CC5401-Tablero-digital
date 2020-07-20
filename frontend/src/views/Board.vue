@@ -292,8 +292,6 @@ export default {
           for (let section of this.sections) {
             section.postits = [];
           }
-
-          //console.log(Object.keys(this.selectedPostIt).length);
           var deleted = true;
           for (let postit of response.data) {
             this.addPostIt(postit);
@@ -393,6 +391,10 @@ export default {
         }
       }
       const section = postit.section;
+      postit.concurrent_users = [
+        {id: 1, name: "Juan", last_name: "Saez", team: "Developer"},
+        {id: 2, name: "Felipe", last_name: "Kruuse", team: "Stackholder"}
+      ]
       this.sections[section].postits.push(postit);
       this.setVoted(postit);
     },
