@@ -9,8 +9,10 @@
     <ul class="concurrent-container">
       <user-icon-large
               v-for="user in postit.concurrent_users"
-              :key="user.id"
+              class="concurrent-container rounded-circle"
               :user_icon="user"
+              :key="user.id"
+              @click="null"
       />
     </ul>
   </li>
@@ -33,15 +35,6 @@ export default {
   name: "PostItLarge",
   components: {
     UserIconLarge
-  },
-  data(){
-    return {
-      concurrent_users: [
-        {
-          name: "Juan"
-        }
-      ]
-    }
   },
   props: ["postit"],
   computed: {
@@ -73,11 +66,9 @@ export default {
   }
 
   .concurrent-container {
-    width: 100%;
-    padding-left: 0.5rem;
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+    float: right;
   }
 
 </style>
