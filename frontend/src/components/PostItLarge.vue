@@ -33,8 +33,7 @@ export default {
       return textEllipsis(this.postit.description, 140);
     },
     text_ttipe(){
-      console.log(this.postit.title > this.title)
-      return this.postit.title > this.title ? this.postit.title : ""
+      return this.postit.title.length > 50 ? this.postit.title : ""
     }
   }
 };

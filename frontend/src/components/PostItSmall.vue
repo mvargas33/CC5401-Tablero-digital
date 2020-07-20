@@ -24,7 +24,7 @@ export default {
       return this.postit.title.slice(0, 39) + '...';
     },
     text_ttip(){
-      return this.postit.title > this.text ? this.postit.title : ""
+      return this.postit.title.length >= 40 ? this.postit.title : ""
     }
   },
 };
