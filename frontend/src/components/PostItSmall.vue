@@ -19,29 +19,9 @@ export default {
   computed: {
     text(){
       // Text to show inside the postit.
-      const as_words = this.postit.title.split(" ");
-      let short_title = "";
-      let pos;
-      let word;
-      for (pos in as_words) {
-        word = as_words[pos];
-        if (word.length >= 15){
-          short_title += word.slice(0, 15) + "- ";
-          let remaining_word = word.slice(15, word.length);
-          while (remaining_word.length >= 15) {
-            short_title += remaining_word.slice(0, 15) + "- ";
-            remaining_word = remaining_word.slice(15, remaining_word.length);
-          }
-          short_title += remaining_word + " ";
-        }
-        else {
-          short_title += word + " ";
-        }
-      }
-      short_title = short_title.slice(0, short_title.length - 1);
-      if (short_title.length < 40)
-        return short_title;
-      return short_title.slice(0, 40) + '...';
+      if (this.postit.title.length < 40)
+        return this.postit.title;
+      return this.postit.title.slice(0, 39) + '...';
     },
     text_ttip(){
       return this.postit.title > this.text ? this.postit.title : ""
@@ -70,6 +50,8 @@ export default {
   transform: rotate(2deg);
   z-index: 0;
   font-weight: 500;
+  overflow-wrap: break-word;
+  overflow-y: hidden;
 }
 
 .post-it-small:nth-child(2n){

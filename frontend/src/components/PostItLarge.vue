@@ -27,31 +27,7 @@ export default {
   props: ["postit"],
   computed: {
     title(){
-      // Text to show inside the postit.
-      const as_words = this.postit.title.split(" ");
-      let short_title = "";
-      let pos;
-      let word;
-      for (pos in as_words) {
-        word = as_words[pos];
-        if (word.length >= 15){
-          short_title += word.slice(0, 15) + "- ";
-          let remaining_word = word.slice(15, word.length);
-          while (remaining_word.length >= 15) {
-            short_title += remaining_word.slice(0, 15) + "- ";
-            remaining_word = remaining_word.slice(15, remaining_word.length);
-          }
-          short_title += remaining_word + " ";
-        }
-        else {
-          short_title += word + " ";
-        }
-      }
-      short_title = short_title.slice(0, short_title.length - 1);
-      if (short_title.length < 40)
-        return short_title;
-      return short_title.slice(0, 40) + '...';
-      //return textEllipsis(this.postit.title, 50);
+      return textEllipsis(this.postit.title, 50);
     },
     description(){
       return textEllipsis(this.postit.description, 140);
@@ -75,10 +51,12 @@ export default {
   box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.4);
   border-radius: 3px;
   list-style: none;
+  overflow-wrap: break-word;
 }
 
 .post-it-description{
   font-size: 1.2rem;
+  overflow-wrap: break-word;
 }
 
 /* Tooltip */
