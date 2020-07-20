@@ -5,7 +5,7 @@
     :class="postit.status"
     @click="$emit('post-it-selected');"
     @mouseover="$emit('posit-mouseover')"
-    v-tooltip.top-center="postit.title"
+    v-tooltip.top-center="text_ttip"
   >
   {{text}}
   </li>
@@ -42,6 +42,9 @@ export default {
       if (short_title.length < 40)
         return short_title;
       return short_title.slice(0, 40) + '...';
+    },
+    text_ttip(){
+      return this.postit.title > this.text ? this.postit.title : ""
     }
   },
 };
@@ -109,6 +112,7 @@ export default {
   color: white;
 }
 
+/* Tooltip */
 .tooltip {
   display: block !important;
   z-index: 10000;
