@@ -40,8 +40,11 @@ export default new Vuex.Store({
       });
       if (data.board === state.actualBoard && otherArray.length === 0 && state.user.username !== data.user.username) {
         //state.active_users.push(data.user);
-        var a = newArray.push(data.user)
+        var a = [...state.active_users]
+        a.push(data.user)
         //Vue.set(state, 'active_users', newArray.push(data.user))
+        //Vue.set(state, 'active_users', [...state.active_users, ...a])
+
         Vue.set(state, 'active_users', [...a])
         //console.log(state.active_users);
       }
