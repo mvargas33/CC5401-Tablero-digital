@@ -40,21 +40,23 @@ export default new Vuex.Store({
       });
       if (data.board === state.actualBoard && otherArray.length === 0 && state.user.username !== data.user.username) {
         //state.active_users.push(data.user);
-        var a = [...state.active_users]
-        a.push(data.user)
+        var a = [...state.active_users];
+        a.push(data.user);
         //Vue.set(state, 'active_users', newArray.push(data.user))
         //Vue.set(state, 'active_users', [...state.active_users, ...a])
 
-        Vue.set(state, 'active_users', [...a])
+        Vue.set(state, 'active_users', [...a]);
         //console.log(state.active_users);
       }
     },
     userOutEvent(state, user) {
       let newArray = Array.from(state.active_users);
-      newArray.filter(users => {
-        return users.username !== user.username
-      });
-      Vue.set(state, 'active_users', newArray);
+      function checkUsername(users){
+        return users.username === user.username;
+      }
+      let ind = newArray.findIndex(checkUsername);
+      state.active_users.splice(ind, 1);
+      //Vue.set(state, 'active_users', [...ans]);
       //var a = [user]
       //Vue.set(state, 'active_users', [...a])
     },
@@ -140,18 +142,23 @@ export default new Vuex.Store({
       return localforage.clear();
     },
     newUserEvent(context, data) {
+      console.log('store: newUserEvent');
       context.commit('newUserEvent', data)
     },
     userOutEvent(context, user) {
+      console.log('store: userOutEvent');
       context.commit('userOutEvent', user)
     },
     currentBoardEvent(context, data) {
+      console.log('store: currentBoardEvent');
       context.commit('currentBoardEvent', data)
     },
     leavePostitEvent(context, data){
+      console.log('store: leavePostitEvent');
       context.commit('leavePostitEvent', data)
     },
     activePostitEvent(context, data){
+      console.log('store: activePostitEvent');
       context.commit('activePostitEvent', data)
     }
   },

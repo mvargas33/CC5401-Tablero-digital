@@ -282,8 +282,10 @@ export default {
       this.boardId = this.$route.params.boardId;
       this.$store.dispatch('currentBoardEvent', this.boardId); //modifica solo para quien entra al board
 //      this.$socket.client.emit('boardjoin', this.user); //indica al server que envie 'boardjoin' a todos los clientes
-      var data = {board: this.boardId, user: this.user};
-      this.$socket.client.emit('boardjoin', data); //indica al server que envie 'boardjoin' a todos los clientes
+
+      this.$socket.client.emit('newConnectionEvent');
+      //var data = {board: this.boardId, user: this.user};
+      //this.$socket.client.emit('boardjoin', data); //indica al server que envie 'boardjoin' a todos los clientes
 
     },
     boardleaveEmitter(){
@@ -505,9 +507,13 @@ export default {
       console.log('socket connected')
     },
     boardleave: function (data) {
-      console.log('Alguien dejó la board');
-      console.log(data);
       this.$store.dispatch('userOutEvent', data);
+    },
+    newConnectionEvent: function(){
+      let databoard = {board: this.boardId, user: this.user};
+      this.$socket.client.emit('boardjoin', databoard);
+      let datapostit = {postit: this.selectedPostIt, user: this.user};
+      this.$socket.client.emit('selectpostit', datapostit);
     }
   }
 };

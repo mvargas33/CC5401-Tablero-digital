@@ -46,6 +46,11 @@ io.on('connection', function (socket) {
     io.emit('leavepostit', data);
   })
 
+  socket.on('newConnectionEvent', function (){
+    console.log('newConnectionEvent')
+    io.emit('newConnectionEvent');
+  })
+
 
 })
 
