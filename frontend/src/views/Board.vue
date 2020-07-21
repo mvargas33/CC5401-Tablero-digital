@@ -413,7 +413,8 @@ export default {
       // Guarda los cambios realizados sobre un postit, tiene una versión vieja del mismo y la con updates
       // Considera los cambio de sección, y/o de
       // Changes a postit, moves it to another section if necessary.
-      //console.log("changePostIt")
+      console.log("changePostIt")
+      console.log(newPostit)
       //console.log(this.sections)
       this.setVoted(newPostit);
 
@@ -457,6 +458,7 @@ export default {
       // Sets postit.voted to true if the user is a team leader and has voted,
       // else sets it to false. If the user is not a team leader, the
       // postit.voted is not set.
+      //console.log(postit)
 
       if (this.workIn.is_leader) {
         if (this.workIn.team == "S")

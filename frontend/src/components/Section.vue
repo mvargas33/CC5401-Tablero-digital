@@ -66,7 +66,7 @@ export default {
           }
         });
       });
-
+      //console.log("positMoved")
       const oldPostIt = {...postitMoved}
       //console.log(oldPostIt)
       const newPostIt = {...postitMoved}
@@ -74,10 +74,12 @@ export default {
       //console.log(newPostIt)
 
       axios
-        .put(`postit/${newPostIt.id}/`, newPostIt)
+        .put(`postit/${oldPostIt.id}/`, newPostIt)
         .then(response => {
           response.data.voted = false;
           // Notify that the postit has been changed and hide the modal.
+          //console.log("positMoved response")
+          //console.log(response.data)
           this.$emit('moved-postit', oldPostIt, response.data);
           this.$emit('board-changes-saved');
           //this.$bvModal.hide("modify-post-it");

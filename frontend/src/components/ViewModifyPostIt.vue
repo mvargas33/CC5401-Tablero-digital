@@ -1,36 +1,5 @@
 <template>
   <div>
-    <!--
-    <b-modal
-      id="info-post-it"
-      :title="selectedPostIt.title"
-      body-class="p-0"
-      hide-footer
-    >
-      <p class="post-it-description m-0 p-3">{{ selectedPostIt.description }}</p>
-
-      <div class="d-flex w-100 p-3 border-bottom">
-        <b-button
-          variant="primary"
-          class="mr-2"
-          @click="$bvModal.hide('info-post-it');$bvModal.show('modify-post-it');"
-        >
-          Editar
-          <font-awesome-icon class="ml-1" icon="edit" />
-        </b-button>
-
-        <b-button
-          variant="danger"
-          class="mr-2"
-          @click="$bvModal.hide('info-post-it');$bvModal.show('confirm-delete')"
-        >
-          Eliminar
-        </b-button>
-
-      </div>
-
-    </b-modal> -->
-
     <b-modal
       id="modify-post-it"
       no-close-on-backdrop
@@ -279,12 +248,17 @@ export default {
   methods: {
     onSubmit() {
       // Send changes to the server and modify the postit info on success.
+      //console.log("onSubmit")
+      //console.log(this.selectedPostIt)
+      //console.log(this.modifiedPostIt)
 
       axios
         .put(`postit/${this.selectedPostIt.id}/`, this.modifiedPostIt)
         .then(response => {
           response.data.voted = false;
           // Notify that the postit has been changed and hide the modal.
+          //console.log("submit response")
+          //console.log(response.data)
           this.$emit('postit-changed', this.selectedPostIt, response.data);
           this.$emit('board-changes-saved');
           this.$bvModal.hide("modify-post-it");
@@ -303,6 +277,8 @@ export default {
       axios
         .get(`postit/${this.selectedPostIt.id}/${action}/`)
         .then(response => {
+          console.log("vote")
+          console.log(response.data)
           this.$emit('postit-changed', this.selectedPostIt, response.data);
           this.$emit('board-changes-saved');
           //this.$bvModal.hide("info-post-it");
