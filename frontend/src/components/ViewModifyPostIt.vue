@@ -37,7 +37,7 @@
 
       hide-footer
       @shown="$emit('post-it-edit-begin')"
-      @hidden="$emit('post-it-edit-end')"
+      @hidden="$emit('leavepostit')"
     >
 
   <b-container class="text-center">
@@ -288,6 +288,9 @@ export default {
           console.log(error);
         });
         
+    },
+    leavePostItEmitter(){
+      this.$emit('leavepostit', this.selectedPostIt);
     },
     vote(vote) {
       // Sends vote to the server for the current post-it, vote = 0 means
