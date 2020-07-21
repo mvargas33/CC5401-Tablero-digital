@@ -28,6 +28,7 @@
         @zoom-in-section="currentSection = section; isZoomedIn = true;"
         @create-post-it="newPostIt(section)"
         @post-it-selected="selectPostIt"
+        @closed = 'closedPostIt'
       />
     </div>
 
@@ -85,6 +86,7 @@
       @postit-changed="changePostit"
       @board-changes-saved="incrementSavedChanges"
       @reset="resetCurrentPostIt"
+      @close="closedPostIt"
       :work_in="workIn"
       :user="user"
     />
@@ -257,15 +259,14 @@ export default {
         this.getPostIts();
       }, 1000 * 4); // Update every 4 seconds
     });
-
     this.sockets.subscribe('newuser', (data) => {
       console.log(data);
     });
   },
   beforeDestroy() {
-    // Clears the update interval.
-
     clearInterval(this.updateInterval);
+    var data= {board: this.board, user: this.user};
+    this.$socket.emit('boardleave', data);
   },
   methods: {
     getBoard() {
@@ -279,7 +280,12 @@ export default {
         .catch(error => {
           console.log(error);
         });
-      this.$socket.client.emit('boardjoin', this.user);
+      var boardId = this.$route.params.boardId;
+      this.$store.dispatch('currentBoardEvent', boardId); //modifica solo para quien entra al board
+//      this.$socket.client.emit('boardjoin', this.user); //indica al server que envie 'boardjoin' a todos los clientes
+      var data = {board: boardId, user: this.user};
+      this.$socket.client.emit('boardjoin', data); //indica al server que envie 'boardjoin' a todos los clientes
+
     },
     getPostIts() {
       // Gets postits for the current board and adds them to the corresponding
@@ -374,7 +380,7 @@ export default {
       for (let i = 0; i < this.collaborators.length; i++) {
         if (this.collaborators[i].user == collaborator) {
           this.collaborators[i].is_leader = true;
-        } 
+        }
         if (this.collaborators[i].user.id == this.user.id){
           this.collaborators[i].is_leader = false;
         }
@@ -402,7 +408,7 @@ export default {
       this.setVoted(newPostit);
       const section = this.sections[oldPostit.section];
       const index = section.postits.indexOf(oldPostit);
-      if (oldPostit.section == newPostit.section) {
+      if (oldPostit.section === newPostit.section) {
         this.$set(section.postits, index, newPostit);
       } else {
         // Move postit to the new section.
@@ -419,6 +425,10 @@ export default {
       this.savedChangesCounter++;
       setTimeout(() => this.savedChangesCounter--, 3000);
     },
+    closedPostIt(){
+      var data = {user: this.user, postit: this.selectedPostIt};
+      this.$socket.client.emit('closedpostit', data);
+    },
     selectPostIt(postit) {
       // Set the current selected postit and show the postit modal.
 
@@ -426,7 +436,7 @@ export default {
       this.$bvModal.show("modify-post-it");
       this.justDeleted = false; // Al seleccionar otro dejo de haber eliminado otro
       var data = {user: this.user, postit: postit}
-      
+
       this.$socket.client.emit('selectpostit', data);
       //console.log(this.$socket)
     },
@@ -436,10 +446,10 @@ export default {
       // postit.voted is not set.
 
       if (this.workIn.is_leader) {
-        if (this.workIn.team == "S")
-          postit.voted = postit.stakeholders_vote != 2;
-        else if (this.workIn.team == "D")
-          postit.voted = postit.developers_vote != 2;
+        if (this.workIn.team === "S")
+          postit.voted = postit.stakeholders_vote !== 2;
+        else if (this.workIn.team === "D")
+          postit.voted = postit.developers_vote !== 2;
       }
     },
     newPostIt(seccion){
@@ -474,21 +484,28 @@ export default {
   },
   sockets: {
     boardjoin: function (data) {
-      console.log('Alguien se unió al board:')
-      console.log(data)
-      //this.$store.dispatch('newUserEvent', data)
+      this.$store.dispatch('newUserEvent', data)
     },
     selectpostit: function (data){
-      console.log('Alguien seleccionó un postit')
+      console.log('Alguien seleccionó un postit');
+      console.log(data)
+    },
+    closedpostit: function (data){
+      console.log('Alguien cerró un postit');
       console.log(data)
     },
     connect: function () {
       console.log('socket connected')
+    },
+    boardleave: function (data) {
+      console.log('Alguien dejó la board');
+      console.log(data);
+      this.$store.dispatch('userOutEvent', data);
     }
   }
 };
 </script>
- 
+
  <style>
 /* General board view */
 .grid-container {

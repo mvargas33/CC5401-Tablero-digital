@@ -34,6 +34,12 @@ io.on('connection', function(socket) {
         io.emit('selectpostit', data); // Broadcast to all clients
     })
 
+    socket.on('boardleave', function(data) {
+        console.log('boardleave');
+        console.log(data);
+        io.emit('boardleave', data);
+    })
+
     
     
 })

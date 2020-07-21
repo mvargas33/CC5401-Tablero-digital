@@ -38,6 +38,7 @@
       hide-footer
       @shown="$emit('post-it-edit-begin')"
       @hidden="$emit('post-it-edit-end')"
+      @close="$emit('post-it-closed')"
     >
 
   <b-container class="text-center">

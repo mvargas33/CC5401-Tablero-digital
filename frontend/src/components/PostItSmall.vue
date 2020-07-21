@@ -2,7 +2,7 @@
   <li
     class="post-it-small"
     :class="postit.status"
-    @click="$emit('post-it-selected');"
+    @click="$emit('post-it-selected')"
   >
   {{text}}
   </li>
