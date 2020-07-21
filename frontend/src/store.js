@@ -16,8 +16,9 @@ export default new Vuex.Store({
       last_name: '',
       full_name: ''
     },
-    active_users: [],
-    actualBoard: -1, //para comprobar si debe agregarse o no a los active users
+    active_users: [], //para el Board
+    actualBoard: -1, //board que estoy revisando
+    postItViews: []
   },
   mutations: {
     setUser(state, {id, username, first_name, last_name}) {
@@ -51,6 +52,25 @@ export default new Vuex.Store({
     },
     currentBoardEvent(state, data) {
       state.actualBoard = data;
+    },
+    activePostitEvent(state, data){
+      if (typeof (state.postItViews[data.postit.id]) === 'undefined'){
+        state.postItViews[data.postit.id] = new Array(data.user);
+      }
+      else {
+        state.postItViews[data.postit.id].push(data.user);
+      }
+      console.log('activePostitEvent');
+      console.log(state.postItViews);
+    },
+    leavePostitEvent(state, data){
+      console.log('afirmativo');
+      function checkUsername(username){
+        return username === data.user.username;
+      }
+      let filtered = state.postItViews[data.postit].filter(checkUsername);
+      state.postItViews[data.postit] = filtered;
+      console.log(state.postItViews);
     }
   },
   actions: {
@@ -120,5 +140,11 @@ export default new Vuex.Store({
     currentBoardEvent(context, data) {
       context.commit('currentBoardEvent', data)
     },
+    leavePostitEvent(context, data){
+      context.commit('leavePostitEvent', data)
+    },
+    activePostitEvent(context, data){
+      context.commit('activePostitEvent', data)
+    }
   }
 });

@@ -40,6 +40,12 @@ io.on('connection', function (socket) {
     io.emit('boardleave', data);
   })
 
+  socket.on('leavepostit', function (data) {
+    console.log('leavepostit');
+    console.log(data);
+    io.emit('leavepostit', data);
+  })
+
 
 })
 

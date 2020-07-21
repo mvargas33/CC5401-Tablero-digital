@@ -86,7 +86,7 @@
       @postit-changed="changePostit"
       @board-changes-saved="incrementSavedChanges"
       @reset="resetCurrentPostIt"
-      @close="closedPostIt"
+      @leavepostit="leavePostIt"
       :work_in="workIn"
       :user="user"
     />
@@ -431,10 +431,6 @@ export default {
       this.savedChangesCounter++;
       setTimeout(() => this.savedChangesCounter--, 3000);
     },
-    closedPostIt(){
-      var data = {user: this.user, postit: this.selectedPostIt};
-      this.$socket.client.emit('closedpostit', data);
-    },
     selectPostIt(postit) {
       // Set the current selected postit and show the postit modal.
 
@@ -445,6 +441,10 @@ export default {
 
       this.$socket.client.emit('selectpostit', data);
       //console.log(this.$socket)
+    },
+    leavePostIt(){
+      var data = {user: this.user, postit: this.selectedPostIt.id}
+      this.$socket.client.emit('leavepostit', data);
     },
     setVoted(postit) {
       // Sets postit.voted to true if the user is a team leader and has voted,
@@ -495,6 +495,12 @@ export default {
     selectpostit: function (data){
       console.log('Alguien seleccionó un postit');
       console.log(data)
+      this.$store.dispatch('activePostitEvent', data);
+    },
+    leavepostit: function (data){
+      console.log('Alguien dejo un postit');
+      console.log(data);
+      this.$store.dispatch('leavePostitEvent', data);
     },
     closedpostit: function (data){
       console.log('Alguien cerró un postit');
@@ -502,9 +508,6 @@ export default {
     },
     connect: function () {
       console.log('socket connected')
-    },
-    disconnect: function(){
-      console.log("idisconnected")
     },
     boardleave: function (data) {
       console.log('Alguien dejó la board');
