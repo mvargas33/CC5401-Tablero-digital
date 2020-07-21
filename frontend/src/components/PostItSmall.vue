@@ -60,18 +60,9 @@ export default {
     usuarios_postit(){
       const test = [
         {'id': 0,'name': "Alexis", 'last_name': 'Garmendia', 'team':'Stakeholders'},
-        {'id': 0,'name': "Alexis", 'last_name': 'Garmendia', 'team':'Stakeholders'},
-        {'id': 0,'name': "Alexis", 'last_name': 'Garmendia', 'team':'Stakeholders'},
-        {'id': 0,'name': "Alexis", 'last_name': 'Garmendia', 'team':'Stakeholders'},
-        {'id': 0,'name': "Alexis", 'last_name': 'Garmendia', 'team':'Stakeholders'},
-        {'id': 0,'name': "Alexis", 'last_name': 'Garmendia', 'team':'Stakeholders'},
-        {'id': 0,'name': "Alexis", 'last_name': 'Garmendia', 'team':'Stakeholders'},
-        {'id': 0,'name': "Alexis", 'last_name': 'Garmendia', 'team':'Stakeholders'},
-        {'id': 0,'name': "Alexis", 'last_name': 'Garmendia', 'team':'Stakeholders'},
-        {'id': 0,'name': "Alexis", 'last_name': 'Garmendia', 'team':'Stakeholders'},
         {'id': 1,'name': "Bárbara", 'last_name': 'Venegas', 'team':'Developer'}
         ]
-      console.log(test)
+      //console.log(test)
       return test; // TODO CALL VUEX
     }
   },

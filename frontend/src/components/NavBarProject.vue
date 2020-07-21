@@ -35,11 +35,14 @@
     <!-- Usuarios activos en el tablero -->
 
     <user-icon-large
-              v-for="user in usuarios_tablero"
+              v-for="user in getActiveUsers"
               class="concurrent-container rounded-circle"
               :user_icon="user"
               :key="user.username"
       />
+    <!-- {{getActiveUsers}} -->
+
+    <!-- Fin users activos -->
     <b-badge
       class="user-info ml-auto"
       variant="info"
@@ -127,6 +130,7 @@ import NewCollaboratorFormModal from "@/components/NewCollaboratorFormModal.vue"
 import CollaboratorsModal from "@/components/CollaboratorsModal.vue";
 import BoardDetailsModal from "@/components/BoardDetailsModal.vue";
 import UserIconLarge from "./UserIconLarge";
+import { mapState, mapGetters } from 'vuex';
 
 
 export default {
@@ -163,14 +167,17 @@ export default {
       const leader = this.collaborators.filter(collab => collab.user.id == this.board.project_leader)[0];
       return leader == undefined? {} : leader.user;
     },
-    usuarios_tablero() {
-      const test = [
-        {'id': 0,'name': "Alexis", 'last_name': 'Garmendia', 'team':'Stakeholders'},
-        {'id': 1,'name': "Bárbara", 'last_name': 'Venegas', 'team':'Developer'}
-        ]
-      console.log(test)
-      return test; //TODO vuex
-    }
+    // usuarios_tablero() {
+    //   // const test = [
+    //   //   {'id': 0,'name': "Alexis", 'last_name': 'Garmendia', 'team':'Stakeholders'},
+    //   //   {'id': 1,'name': "Bárbara", 'last_name': 'Venegas', 'team':'Developer'}
+    //   //   ]
+
+    //   console.log(this.$store.state.active_users)
+    //   return this.$store.state.active_users; //TODO vuex
+    // }
+    //...mapState(['active_users'])
+    ...mapGetters(['getActiveUsers'])
   },
   methods: {
     addCollaborator(collaborator) {

@@ -39,8 +39,11 @@ export default new Vuex.Store({
         return users.username === data.user.username;
       });
       if (data.board === state.actualBoard && otherArray.length === 0 && state.user.username !== data.user.username) {
-        state.active_users.push(data.user);
-        console.log(state.active_users);
+        //state.active_users.push(data.user);
+        var a = newArray.push(data.user)
+        //Vue.set(state, 'active_users', newArray.push(data.user))
+        Vue.set(state, 'active_users', [...a])
+        //console.log(state.active_users);
       }
     },
     userOutEvent(state, user) {
@@ -49,6 +52,8 @@ export default new Vuex.Store({
         return users.username !== user.username
       });
       Vue.set(state, 'active_users', newArray);
+      //var a = [user]
+      //Vue.set(state, 'active_users', [...a])
     },
     currentBoardEvent(state, data) {
       state.actualBoard = data;
@@ -145,6 +150,11 @@ export default new Vuex.Store({
     },
     activePostitEvent(context, data){
       context.commit('activePostitEvent', data)
+    }
+  },
+  getters: {
+    getActiveUsers: state => {
+      return state.active_users;
     }
   }
 });

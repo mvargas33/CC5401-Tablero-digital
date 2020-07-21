@@ -10,21 +10,22 @@ export default {
   props: ["user_icon","tipo"],
   computed: {
     letters(){
-      return this.user_icon.name[0] + this.user_icon.last_name[0];
+      return this.user_icon.first_name[0] + this.user_icon.last_name[0];
     },
     whole_name(){
-      return this.user_icon.name + " " +
-              this.user_icon.last_name + " - " +
-              this.user_icon.team;
+      return this.user_icon.first_name + " " +
+              this.user_icon.last_name 
+              //+ " - " 
+              //+ this.user_icon.team;
     },
     
   },
   methods: {
     iconClass(tipe){
-        console.log(tipe)
+        //console.log(tipe)
         var randomColor = "#"+((1<<24)*Math.random()|0).toString(16);
         if(tipe === "small"){
-          console.log("retorno small")
+          //console.log("retorno small")
           return `height: 1.7rem;
                   width: 1.7rem;
                   color: white;

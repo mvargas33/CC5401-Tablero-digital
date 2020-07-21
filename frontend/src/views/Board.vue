@@ -28,7 +28,6 @@
         @zoom-in-section="currentSection = section; isZoomedIn = true;"
         @create-post-it="newPostIt(section)"
         @post-it-selected="selectPostIt"
-        @closed = 'closedPostIt'
       />
     </div>
 
@@ -260,9 +259,9 @@ export default {
         this.getPostIts();
       }, 1000 * 4); // Update every 4 seconds
     });
-    this.sockets.subscribe('newuser', (data) => {
-      console.log(data);
-    });
+    // this.sockets.subscribe('newuser', (data) => {
+    //   console.log(data);
+    // });
   },
   beforeDestroy() {
     clearInterval(this.updateInterval);
@@ -501,10 +500,6 @@ export default {
       console.log('Alguien dejo un postit');
       console.log(data);
       this.$store.dispatch('leavePostitEvent', data);
-    },
-    closedpostit: function (data){
-      console.log('Alguien cerró un postit');
-      console.log(data)
     },
     connect: function () {
       console.log('socket connected')
