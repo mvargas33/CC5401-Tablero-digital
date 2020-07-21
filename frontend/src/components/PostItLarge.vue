@@ -12,7 +12,6 @@
               class="concurrent-container rounded-circle"
               :user_icon="user"
               :key="user.id"
-              @click="null"
       />
     </ul>
   </li>

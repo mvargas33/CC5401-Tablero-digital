@@ -5,13 +5,31 @@
     @click="$emit('post-it-selected');"
   >
   {{text}}
+  <ul class="concurrent-container">
+      <user-icon-large
+              v-for="user in usuarios_postit"
+              class="concurrent-container rounded-circle"
+              :user_icon="user"
+              :tipo="small"
+              :key="user.id"
+      />
+    </ul>
   </li>
+
 </template>
 
 <script>
+  import UserIconLarge from "./UserIconLarge";
+
 export default {
   name: "PostItSmall",
   props: ["postit"],
+  components: {
+    UserIconLarge
+  },
+  data() {
+    return { small: "small" };
+  },
   computed: {
     text(){
       // Text to show inside the postit.
@@ -38,8 +56,30 @@ export default {
       if (short_title.length < 40)
         return short_title;
       return short_title.slice(0, 40) + '...';
+    },
+    usuarios_postit(){
+      const test = [
+        {'id': 0,'name': "Alexis", 'last_name': 'Garmendia', 'team':'Stakeholders'},
+        {'id': 0,'name': "Alexis", 'last_name': 'Garmendia', 'team':'Stakeholders'},
+        {'id': 0,'name': "Alexis", 'last_name': 'Garmendia', 'team':'Stakeholders'},
+        {'id': 0,'name': "Alexis", 'last_name': 'Garmendia', 'team':'Stakeholders'},
+        {'id': 0,'name': "Alexis", 'last_name': 'Garmendia', 'team':'Stakeholders'},
+        {'id': 0,'name': "Alexis", 'last_name': 'Garmendia', 'team':'Stakeholders'},
+        {'id': 0,'name': "Alexis", 'last_name': 'Garmendia', 'team':'Stakeholders'},
+        {'id': 0,'name': "Alexis", 'last_name': 'Garmendia', 'team':'Stakeholders'},
+        {'id': 0,'name': "Alexis", 'last_name': 'Garmendia', 'team':'Stakeholders'},
+        {'id': 0,'name': "Alexis", 'last_name': 'Garmendia', 'team':'Stakeholders'},
+        {'id': 1,'name': "Bárbara", 'last_name': 'Venegas', 'team':'Developer'}
+        ]
+      console.log(test)
+      return test; // TODO CALL VUEX
     }
   },
+  methods: {
+    positSmallStyle(){ // TODO BYNAMIC SIZE BASED ON ACTIUVE USERES IN POSTIT
+      return ``
+    }
+  }
 };
 </script>
 
