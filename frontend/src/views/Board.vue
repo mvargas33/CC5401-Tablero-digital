@@ -240,7 +240,8 @@ export default {
       savedChangesCounter: 0, // Number of changes saved in the last 3 seconds
       updateInterval: 0, // Identifier used in created()
       delete_error_msg: false, // Alerta dissmisable de error que otro borró posit actual
-      justDeleted: false // Recien eliminamos algo
+      justDeleted: false, // Recien eliminamos algo
+      boardId: -1
     };
   },
   computed: {
@@ -265,8 +266,7 @@ export default {
   },
   beforeDestroy() {
     clearInterval(this.updateInterval);
-    var data= {board: this.board, user: this.user};
-    this.$socket.emit('boardleave', data);
+    this.boardleaveEmitter();
   },
   methods: {
     getBoard() {
@@ -280,12 +280,16 @@ export default {
         .catch(error => {
           console.log(error);
         });
-      var boardId = this.$route.params.boardId;
-      this.$store.dispatch('currentBoardEvent', boardId); //modifica solo para quien entra al board
+      this.boardId = this.$route.params.boardId;
+      this.$store.dispatch('currentBoardEvent', this.boardId); //modifica solo para quien entra al board
 //      this.$socket.client.emit('boardjoin', this.user); //indica al server que envie 'boardjoin' a todos los clientes
-      var data = {board: boardId, user: this.user};
+      var data = {board: this.boardId, user: this.user};
       this.$socket.client.emit('boardjoin', data); //indica al server que envie 'boardjoin' a todos los clientes
 
+    },
+    boardleaveEmitter(){
+      var data = {board: this.boardId, user: this.user};
+      this.$socket.client.emit('boardleave', data); //indica al server que envie 'boardleave' a todos
     },
     getPostIts() {
       // Gets postits for the current board and adds them to the corresponding
@@ -496,6 +500,9 @@ export default {
     },
     connect: function () {
       console.log('socket connected')
+    },
+    disconnect: function(){
+      console.log("idisconnected")
     },
     boardleave: function (data) {
       console.log('Alguien dejó la board');
