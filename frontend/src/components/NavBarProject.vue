@@ -1,6 +1,6 @@
 <template>
   <b-navbar id="navbar" type="dark" variant="primary" class="sticky-top">
-    <router-link :to="{name: 'Home'}" class="navbar-brand homeIcon mr-3">
+    <router-link :to="{name: 'Home'}" class="navbar-brand homeIcon mr-3" @click="$emit('leave')">
       <font-awesome-icon icon="home" />
     </router-link>
 

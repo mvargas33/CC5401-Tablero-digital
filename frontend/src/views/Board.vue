@@ -5,6 +5,7 @@
       @new-collaborator="addCollaborator"
       @collaborator-deleted="deleteCollaborator"
       @changed-leader="updateLeader"
+      @leave="boardleaveEmitter"
       :user="user"
       :work-in="workIn"
       :collaborators="collaborators"
@@ -284,8 +285,9 @@ export default {
 //      this.$socket.client.emit('boardjoin', this.user); //indica al server que envie 'boardjoin' a todos los clientes
 
       this.$socket.client.emit('newConnectionEvent');
-      //var data = {board: this.boardId, user: this.user};
-      //this.$socket.client.emit('boardjoin', data); //indica al server que envie 'boardjoin' a todos los clientes
+
+      var data = {board: this.boardId, user: this.user};
+      this.$socket.client.emit('boardjoin', data); //indica al server que envie 'boardjoin' a todos los clientes
 
     },
     boardleaveEmitter(){
@@ -513,7 +515,7 @@ export default {
       let databoard = {board: this.boardId, user: this.user};
       this.$socket.client.emit('boardjoin', databoard);
       let datapostit = {postit: this.selectedPostIt, user: this.user};
-      this.$socket.client.emit('selectpostit', datapostit);
+      //this.$socket.client.emit('selectpostit', datapostit);
     }
   }
 };

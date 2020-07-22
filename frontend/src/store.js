@@ -49,16 +49,42 @@ export default new Vuex.Store({
         //console.log(state.active_users);
       }
     },
-    userOutEvent(state, user) {
-      let newArray = Array.from(state.active_users);
-      function checkUsername(users){
-        return users.username === user.username;
-      }
-      let ind = newArray.findIndex(checkUsername);
-      state.active_users.splice(ind, 1);
+    userOutEvent(state, data) {
+      console.log(data)
+      // let newArray = Array.from(state.active_users);
+      // function checkUsername(users){
+      //   return users.username === user.username;
+      // }
+      // let ind = newArray.findIndex(checkUsername);
+      // state.active_users.splice(ind - 1, 1);
+
       //Vue.set(state, 'active_users', [...ans]);
       //var a = [user]
       //Vue.set(state, 'active_users', [...a])
+
+      // var i = 0;
+      // let newArray = [...state.active_users];
+      // for (let index = 0; index < newArray.length; index++) {
+      //   const element = newArray[index];
+      //   console.log(element.id)
+      //   console.log(user.id)
+      //   if(element.id === user.id){
+      //     console.log(element.id)
+      //     console.log(user.id)
+      //     i = index;
+      //     break;
+      //   }
+      // }
+      // console.log(newArray)
+      // console.log(i)
+      // newArray.splice(i, 1);
+      // console.log(newArray)
+      // Vue.set(state, 'active_users', [...newArray])
+       const i = state.active_users.map(u => u.username).indexOf(data.user.username);
+       console.log(i)
+       if(i != -1){ // -1 significa que ya no lo tengo
+         state.active_users.splice(i, 1);
+       }
     },
     currentBoardEvent(state, data) {
       state.actualBoard = data;
