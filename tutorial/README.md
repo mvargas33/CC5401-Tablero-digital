@@ -18,6 +18,12 @@
 - Install dependencies `npm install`.
 - Run server `npm run serve`.
 
+## Socket.io
+
+- Go to socket.io directory `cd socket_server`.
+- Install dependencies `npm install`.
+- Run server `node index.js`.
+
 # Deploy in Heroku
 
 ## Requirements
