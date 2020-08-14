@@ -1,5 +1,6 @@
 venv/
 socket_server/node_modules
+app/migrations
 # Created by https://www.gitignore.io/api/vue,vuejs,python,django,visualstudiocode
 # Edit at https://www.gitignore.io/?templates=vue,vuejs,python,django,visualstudiocode
 
